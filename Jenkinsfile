@@ -10,7 +10,7 @@ pipeline {
         stage('init'){
           steps{
             script{
-              Common.runGitMerge('pipeline', 'master')
+              Common.runGitMerge('CI_Master', 'master')
               Common.slack "Build Started."
             }
           }
@@ -85,14 +85,14 @@ pipeline {
               }
             }
         }
-        // stage('Merge') {
-        //     steps {
-        //       script{
-        //         Common.slack 'Merge to master branch...'
-        //         Common.runGitPush('master')
-        //       }
-        //     }
-        // }
+        stage('Merge') {
+            steps {
+              script{
+                Common.slack 'Merge to master branch...'
+                Common.runGitPush('master')
+              }
+            }
+        }
         stage('PP Deploy') {
             steps {
               script{

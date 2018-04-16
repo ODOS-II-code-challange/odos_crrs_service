@@ -1,11 +1,64 @@
 import org.gradle.internal.os.OperatingSystem
 
+import org.apache.tools.ant.taskdefs.condition.Os;
+
 configurations {
     liquibase
 }
 
 dependencies {
     liquibase "org.liquibase.ext:liquibase-hibernate5:${liquibase_hibernate5_version}"
+}
+
+if (OperatingSystem.current().isWindows()) {
+    ext.psql = "C:/PostgreSQL/10/bin/psql.exe"
+} else {
+    if (System.getenv('PSQL_BIN') == null) {
+        ext.psql = "/usr/bin/psql"
+    } else {
+        ext.psql = System.getenv('PSQL_BIN')
+    }
+}
+
+def runpsql(String sqlFile, String dbConnection) {
+    println "Running " + sqlFile
+    exec {
+        ignoreExitValue true
+        environment 'PGPASSWORD', "${databaseAdminPassword}"
+        executable psql
+        args '-h', "${databaseHost}",
+            '-p', "${databasePort}",
+            '-U', "${databaseAdminUser}",
+            '-d', "${dbConnection}",
+            '-f', "${sqlFile}",
+            '-v', "databaseName=${databaseName}",
+            '-v', "databaseAdminUser=${databaseAdminUser}",
+            '-v', "databaseSchema=${databaseSchema}",
+            '-v', "databaseAppRole=${databaseAppRole}",
+            '-v', "databaseAppPassword='${databaseAppPassword}'"
+    }
+}
+
+def runpsql(String sqlFile) {
+    println "Running " + sqlFile
+    exec {
+        ignoreExitValue true
+        environment 'PGPASSWORD', "${databaseAdminPassword}"
+        executable psql
+        args '-f', "${sqlFile}",
+        '-v', "databaseSchema=${databaseSchema}",
+        '-v', "databaseName=${databaseName}",
+        '-v', "databaseAdminUser=${databaseAdminUser}",
+        '-v', "databaseAppRole=${databaseAppRole}"
+    }
+}
+
+task baseline << {
+    runpsql('src/main/resources/config/liquibase/baseline/drop_database.sql')
+    runpsql('src/main/resources/config/liquibase/baseline/drop_user.sql')
+    runpsql('src/main/resources/config/liquibase/baseline/create_database.sql')
+    runpsql('src/main/resources/config/liquibase/baseline/create_user.sql', "${databaseName}")
+    runpsql('src/main/resources/config/liquibase/baseline/create_schema.sql', "${databaseName}")
 }
 
 if (OperatingSystem.current().isWindows()) {
@@ -42,11 +95,11 @@ def liquibaseCommand(command) {
         }
         main = "liquibase.integration.commandline.Main"
 
-        args "--changeLogFile=src/main/resources/config/liquibase/changelog/" + buildTimestamp() +"_changelog.xml"
+        args "--changeLogFile=src/main/resources/config/liquibase/changelog.xml"
         args "--referenceUrl=hibernate:spring:gov.dhs.uscis.odos.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
-        args "--username=crrsvc"
-        args "--password="
-        args "--url=jdbc:postgresql://localhost:5432/crrsvc"
+        args "--username=odos_admin"
+        args "--password=0d0sP455"
+        args "--url=jdbc:postgresql://localhost:5432/odos_crrs_svc"
         args "--driver=org.postgresql.Driver"
         args command
     }
@@ -61,6 +114,12 @@ task liquibaseDiffChangeLog(dependsOn: initPaths) {
 task liquibaseClearChecksums(dependsOn: initPaths) {
     doLast {
         liquibaseCommand("clearChecksums")
+    }
+}
+
+task liquibaseUpdate(dependsOn: initPaths) {
+    doLast {
+        liquibaseCommand("update")
     }
 }
 

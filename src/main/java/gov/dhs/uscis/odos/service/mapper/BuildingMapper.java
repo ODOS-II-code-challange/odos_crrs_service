@@ -1,24 +1,22 @@
 package gov.dhs.uscis.odos.service.mapper;
 
-import gov.dhs.uscis.odos.domain.*;
-import gov.dhs.uscis.odos.service.dto.BuildingDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-import org.mapstruct.*;
+import gov.dhs.uscis.odos.domain.Building;
+import gov.dhs.uscis.odos.service.dto.BuildingDTO;
 
 /**
  * Mapper for the entity Building and its DTO BuildingDTO.
  */
+
 @Mapper(componentModel = "spring", uses = {})
-public interface BuildingMapper extends EntityMapper<BuildingDTO, Building> {
+public interface BuildingMapper {
 
+	BuildingMapper INSTANCE = Mappers.getMapper(BuildingMapper.class);
 
+	Building toEntity(BuildingDTO dto);
 
-    default Building fromId(Long id) {
-        if (id == null) {
-            return null;
-        }
-        Building building = new Building();
-        building.setBuildingId(id);
-        return building;
-    }
+	BuildingDTO toDto(Building buildingEntity);
+
 }

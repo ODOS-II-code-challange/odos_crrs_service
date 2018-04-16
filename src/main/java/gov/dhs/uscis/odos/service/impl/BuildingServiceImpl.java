@@ -1,18 +1,17 @@
 package gov.dhs.uscis.odos.service.impl;
 
-import gov.dhs.uscis.odos.service.BuildingService;
-import gov.dhs.uscis.odos.domain.Building;
-import gov.dhs.uscis.odos.repository.BuildingRepository;
-import gov.dhs.uscis.odos.service.dto.BuildingDTO;
-import gov.dhs.uscis.odos.service.mapper.BuildingMapper;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
+import gov.dhs.uscis.odos.domain.Building;
+import gov.dhs.uscis.odos.repository.BuildingRepository;
+import gov.dhs.uscis.odos.service.BuildingService;
+import gov.dhs.uscis.odos.service.dto.BuildingDTO;
+import gov.dhs.uscis.odos.service.mapper.BuildingMapper;
 
 /**
  * Service Implementation for managing Building.
@@ -25,11 +24,11 @@ public class BuildingServiceImpl implements BuildingService {
 
     private final BuildingRepository buildingRepository;
 
-    private final BuildingMapper buildingMapper;
+    
 
-    public BuildingServiceImpl(BuildingRepository buildingRepository, BuildingMapper buildingMapper) {
+    public BuildingServiceImpl(BuildingRepository buildingRepository) {
         this.buildingRepository = buildingRepository;
-        this.buildingMapper = buildingMapper;
+      
     }
 
     /**
@@ -41,9 +40,9 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public BuildingDTO save(BuildingDTO buildingDTO) {
         log.debug("Request to save Building : {}", buildingDTO);
-        Building building = buildingMapper.toEntity(buildingDTO);
+        Building building  = BuildingMapper.INSTANCE.toEntity( buildingDTO );
         building = buildingRepository.save(building);
-        return buildingMapper.toDto(building);
+        return BuildingMapper.INSTANCE.toDto( building );
     }
 
     /**
@@ -55,9 +54,10 @@ public class BuildingServiceImpl implements BuildingService {
     @Transactional(readOnly = true)
     public List<BuildingDTO> findAll() {
         log.debug("Request to get all Buildings");
-        return buildingRepository.findAll().stream()
-            .map(buildingMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return null;
+//        return buildingRepository.findAll().stream()
+//            .map(buildingMapper::toDto)
+//            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**
@@ -70,8 +70,9 @@ public class BuildingServiceImpl implements BuildingService {
     @Transactional(readOnly = true)
     public BuildingDTO findOne(Long id) {
         log.debug("Request to get Building : {}", id);
-        Building building = buildingRepository.findOne(id);
-        return buildingMapper.toDto(building);
+        return null;
+//        Building building = buildingRepository.findOne(id);
+//        return buildingMapper.toDto(building);
     }
 
     /**

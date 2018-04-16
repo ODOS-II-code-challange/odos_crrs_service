@@ -16,9 +16,9 @@ For further instructions on how to develop with JHipster, have a look at [Using 
 
 ## Database baseline and update
 
-Must have local Postgres user odos_admin created with password 0d0sP455.
+Must have local Postgres user `odos_admin` created with password `0d0sP455` along with database `odos_crrs_svc` created.
 
-run
+To baseline and update:
 
     ./gradlew baseline liquibaseUpdate
 

@@ -40,13 +40,14 @@ spring:
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://localhost:5432/crrsvc
-        username: crrsvc
-        password:
+        username: odos_svc_app
+        password: 0d0s_svc
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
         show-sql: true
         properties:
+            hibernate.default_schema: odos_crrs_svc
             hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false

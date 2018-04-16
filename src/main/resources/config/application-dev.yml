@@ -29,7 +29,11 @@ eureka:
 spring:
     profiles:
         active: dev
+<<<<<<< HEAD
         include: swagger, no-liquibase
+=======
+        include: swagger,no-liquibase
+>>>>>>> 0fb036b43b450050c0a665597990175b12e596ea
     devtools:
         restart:
             enabled: true
@@ -39,14 +43,15 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/crrsvc
-        username: crrsvc
+        url: jdbc:postgresql://localhost:5432/odos_crrs_svc
+        username: odos_svc_app
         password:
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
         show-sql: true
         properties:
+            hibernate.default_schema: odos_crrs_svc
             hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false

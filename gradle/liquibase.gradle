@@ -42,7 +42,6 @@ def runpsql(String sqlFile, String dbConnection) {
 task baseline << {
     runpsql('src/main/resources/config/liquibase/baseline/drop_schema.sql', "${databaseName}")
     runpsql('src/main/resources/config/liquibase/baseline/drop_user.sql', "${databaseName}")
-    runpsql('src/main/resources/config/liquibase/baseline/create_database.sql', "${databaseName}")
     runpsql('src/main/resources/config/liquibase/baseline/create_user.sql', "${databaseName}")
     runpsql('src/main/resources/config/liquibase/baseline/create_schema.sql', "${databaseName}")
 }
@@ -83,9 +82,10 @@ def liquibaseCommand(command) {
 
         args "--changeLogFile=src/main/resources/config/liquibase/changelog.xml"
         args "--referenceUrl=hibernate:spring:gov.dhs.uscis.odos.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
-        args "--username=odos_admin"
-        args "--password=0d0sP455"
-        args "--url=jdbc:postgresql://localhost:5432/odos_crrs_svc"
+        args "--username=${databaseAdminUser}"
+        args "--password=${databaseAdminPassword}"
+        args "--defaultSchemaName=${databaseName}"
+        args "--url=jdbc:postgresql://${databaseHost}:${databasePort}/${databaseName}"
         args "--driver=org.postgresql.Driver"
         args command
     }

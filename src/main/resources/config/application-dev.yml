@@ -29,11 +29,7 @@ eureka:
 spring:
     profiles:
         active: dev
-<<<<<<< HEAD
         include: swagger, no-liquibase
-=======
-        include: swagger,no-liquibase
->>>>>>> 0fb036b43b450050c0a665597990175b12e596ea
     devtools:
         restart:
             enabled: true

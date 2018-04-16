@@ -9,17 +9,17 @@ import java.util.Objects;
  */
 public class BuildingDTO implements Serializable {
 
-    private Integer buildingId;
+    private Long buildingId;
 
     private String buildingName;
 
     private String buildingDesc;
 
-    public Integer getBuildingId() {
+    public Long getBuildingId() {
         return buildingId;
     }
 
-    public void setBuildId(Integer buildingId) {
+    public void setBuildingId(Long buildingId) {
         this.buildingId = buildingId;
     }
 

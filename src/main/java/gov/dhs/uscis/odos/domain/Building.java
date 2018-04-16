@@ -22,7 +22,7 @@ public class Building implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "bldg_id")
-    private Integer buildingId;
+    private Long buildingId;
 
     @Column(name = "bldg_nm")
     private String buildingName;
@@ -30,16 +30,16 @@ public class Building implements Serializable {
     @Column(name = "bldg_dsc")
     private String buildingDesc;
 
-    public Integer getBuildingId() {
+    public Long getBuildingId() {
         return buildingId;
     }
 
-    public Building buildingId(Integer buildingId) {
+    public Building buildingId(Long buildingId) {
         this.buildingId = buildingId;
         return this;
     }
 
-    public void setBuildingId(Integer buildingId) {
+    public void setBuildingId(Long buildingId) {
         this.buildingId = buildingId;
     }
 

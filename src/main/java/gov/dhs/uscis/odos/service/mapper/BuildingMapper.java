@@ -13,7 +13,7 @@ public interface BuildingMapper extends EntityMapper<BuildingDTO, Building> {
 
 
 
-    default Building fromId(Integer id) {
+    default Building fromId(Long id) {
         if (id == null) {
             return null;
         }

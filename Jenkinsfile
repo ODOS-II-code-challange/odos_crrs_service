@@ -10,7 +10,7 @@ pipeline {
         stage('init'){
           steps{
             script{
-              Common.runGitMerge('CI_Master', 'master')
+              Common.runGitMerge('pipeline', 'master')
               Common.slack "Build Started."
             }
           }

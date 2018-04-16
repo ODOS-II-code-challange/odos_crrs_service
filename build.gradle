@@ -2,10 +2,9 @@ import org.gradle.internal.os.OperatingSystem
 
 buildscript {
     repositories {
-        mavenLocal()
-        jcenter()
-        maven { url "http://repo.spring.io/plugins-release" }
-        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "http://nexus.lassiterdynamics.com:8081/repository/jcenter" }
+        maven { url "http://nexus.lassiterdynamics.com:8081/repository/spring-plugins-release" }
+        maven { url "http://nexus.lassiterdynamics.com:8081/repository/gradle-plugins" }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
@@ -141,8 +140,7 @@ configurations {
 }
 
 repositories {
-    mavenLocal()
-    jcenter()
+    maven { url "http://nexus.lassiterdynamics.com:8081/repository/jcenter" }
 }
 
 dependencies {

@@ -46,6 +46,7 @@ def runpsql(String sqlFile) {
         environment 'PGPASSWORD', "${databaseAdminPassword}"
         executable psql
         args '-f', "${sqlFile}",
+        '-v', "databaseSchema=${databaseSchema}",
         '-v', "databaseName=${databaseName}",
         '-v', "databaseAdminUser=${databaseAdminUser}",
         '-v', "databaseAppRole=${databaseAppRole}"
@@ -94,11 +95,11 @@ def liquibaseCommand(command) {
         }
         main = "liquibase.integration.commandline.Main"
 
-        args "--changeLogFile=src/main/resources/config/liquibase/changelog/" + buildTimestamp() +"_changelog.xml"
+        args "--changeLogFile=src/main/resources/config/liquibase/changelog.xml"
         args "--referenceUrl=hibernate:spring:gov.dhs.uscis.odos.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
-        args "--username=crrsvc"
-        args "--password="
-        args "--url=jdbc:postgresql://localhost:5432/crrsvc"
+        args "--username=odos_admin"
+        args "--password=0d0sP455"
+        args "--url=jdbc:postgresql://localhost:5432/odos_crrs_svc"
         args "--driver=org.postgresql.Driver"
         args command
     }
@@ -113,6 +114,12 @@ task liquibaseDiffChangeLog(dependsOn: initPaths) {
 task liquibaseClearChecksums(dependsOn: initPaths) {
     doLast {
         liquibaseCommand("clearChecksums")
+    }
+}
+
+task liquibaseUpdate(dependsOn: initPaths) {
+    doLast {
+        liquibaseCommand("update")
     }
 }
 

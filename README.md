@@ -14,6 +14,14 @@ To start your application in the dev profile, simply run:
 
 For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
 
+## Database baseline and update
+
+Must have local Postgres user odos_admin created with password 0d0sP455.
+
+run
+
+    ./gradlew baseline liquibaseUpdate
+
 
 ### Doing API-First development using swagger-codegen
 

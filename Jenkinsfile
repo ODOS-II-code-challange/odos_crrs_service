@@ -43,7 +43,7 @@ pipeline {
             steps {
               script{
                 Common.slack 'Packaging into a container...'
-                Common.buildContainer('odosii_crrs')
+                Common.buildContainer('crrsvc')
               }
             }
         }
@@ -51,7 +51,7 @@ pipeline {
         //     steps {
         //       script{
         //         Common.slack 'Twistlock Scan...'
-        //         Common.twistlock('docker.lassiterdynamics.com:5000', 'odosii_crrs','latest')
+        //         Common.twistlock('docker.lassiterdynamics.com:5000', 'crrsvc','latest')
         //       }
         //     }
         // }
@@ -59,7 +59,7 @@ pipeline {
             steps {
               script{
                 Common.slack 'Push to Docker Registry..'
-                Common.pushContainer('odosii_crrs')
+                Common.pushContainer('crrsvc')
               }
             }
         }
@@ -67,7 +67,7 @@ pipeline {
             steps {
               script{
                 Common.slack 'Deploying to Test Environment...'
-                Common.deployToOpenShift('odos-ii-test','odosii_crrs','latest')
+                Common.deployToOpenShift('odos-ii-test','crrsvc','latest')
               }
             }
         }

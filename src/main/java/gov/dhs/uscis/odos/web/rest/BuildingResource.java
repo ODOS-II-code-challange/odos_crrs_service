@@ -1,23 +1,29 @@
 package gov.dhs.uscis.odos.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import gov.dhs.uscis.odos.service.BuildingService;
-import gov.dhs.uscis.odos.web.rest.errors.BadRequestAlertException;
-import gov.dhs.uscis.odos.web.rest.util.HeaderUtil;
-import gov.dhs.uscis.odos.service.dto.BuildingDTO;
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.codahale.metrics.annotation.Timed;
+
+import gov.dhs.uscis.odos.service.BuildingService;
+import gov.dhs.uscis.odos.service.dto.BuildingDTO;
+import gov.dhs.uscis.odos.web.rest.errors.BadRequestAlertException;
+import gov.dhs.uscis.odos.web.rest.util.HeaderUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing Building.
@@ -30,8 +36,11 @@ public class BuildingResource {
 
     private static final String ENTITY_NAME = "building";
 
-    @Inject
-    private  BuildingService buildingService;
+    private final BuildingService buildingService;
+
+    public BuildingResource(BuildingService buildingService) {
+        this.buildingService = buildingService;
+    }
    
 
     /**

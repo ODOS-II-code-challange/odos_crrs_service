@@ -21,6 +21,7 @@ eureka:
         instanceId: crrsvc:${spring.application.instance-id:${random.value}}
 
 spring:
+    
     application:
         name: crrsvc
     jackson:
@@ -49,7 +50,7 @@ spring:
         platform: POSTGRESSQL
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://${databaseHost}:${databasePort}/${databaseName}?stringtype=unspecified
-        username: ${databaseAppRole}
+        username: ${databaseAppRole:odos_crrs_svc_app}
         password: ${databaseAppPassword}
         tomcat:
           validation-query: SELECT 1

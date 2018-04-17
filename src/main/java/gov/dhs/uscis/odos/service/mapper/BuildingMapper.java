@@ -1,5 +1,6 @@
 package gov.dhs.uscis.odos.service.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,14 +32,20 @@ public class BuildingMapper implements EntityMapper<BuildingDTO, Building> {
 
 	@Override
 	public List<Building> toEntity(List<BuildingDTO> dtoList) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Building> buildingLists = new ArrayList<>();
+		for (BuildingDTO buildingDTO : dtoList) {
+			buildingLists.add(mapper.map(buildingDTO, Building.class));
+		}
+		return buildingLists;
 	}
 
 	@Override
 	public List<BuildingDTO> toDto(List<Building> entityList) {
-		// TODO Auto-generated method stub
-		return null;
+		List<BuildingDTO> buildingDTOList = new ArrayList<>();
+		for (Building buildingEnty : entityList) {
+			buildingDTOList.add(mapper.map(buildingEnty, BuildingDTO.class));
+		}
+		return buildingDTOList;
 	}
 
 }

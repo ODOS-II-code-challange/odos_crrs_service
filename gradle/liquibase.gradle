@@ -32,20 +32,21 @@ def runpsql(String sqlFile, String dbConnection) {
             '-d', "${dbConnection}",
             '-f', "${sqlFile}",
             '-v', "databaseName=${databaseName}",
-            '-v', "databaseAdminUser=${databaseAdmin}",
+            '-v', "databaseAdmin=${databaseAdmin}",
             '-v', "databaseSchema=${databaseSchema}",
             '-v', "databaseAppRole=${databaseAppRole}",
-            '-v', "databaseAppRole=${databaseAppUser}",
-            '-v', "databaseAppPassword='${databaseAppUserPassword}'",
-            '-v', "databaseAppPassword='${databaseNameQuotes}'"
+            '-v', "databaseAppUser=${databaseAppUser}",
+            '-v',"liquibaseSchema=${liquibaseSchema}",
+            '-v', "databaseAppUserPassword=${databaseAppUserPassword}",
+            '-v', "databaseNameQuotes='${databaseNameQuotes}'"
     }
 }
 
 task baseline << {
     runpsql('src/main/resources/config/liquibase/baseline/drop_schema.sql', "${databaseName}")
     runpsql('src/main/resources/config/liquibase/baseline/drop_user.sql', "${databaseName}")
-    runpsql('src/main/resources/config/liquibase/baseline/drop_databse.sql', 'postgres')
-    runpsql('src/main/resources/config/liquibase/baseline/create_databse.sql', 'postgres')
+    runpsql('src/main/resources/config/liquibase/baseline/drop_database.sql', 'postgres')
+    runpsql('src/main/resources/config/liquibase/baseline/create_database.sql', 'postgres')
     runpsql('src/main/resources/config/liquibase/baseline/create_user_schema.sql', "${databaseName}")
 }
 

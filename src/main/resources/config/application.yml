@@ -72,7 +72,7 @@ spring:
         open-in-view: false
         hibernate:
             database: POSTGRESQL
-            show-sql: ${CRRSVC_SHOW_SQL:fasle}
+            show-sql: ${CRRSVC_SHOW_SQL:false}
             dialect: org.hibernate.dialect.PostgreSQL94Dialect
             naming:
                 physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy

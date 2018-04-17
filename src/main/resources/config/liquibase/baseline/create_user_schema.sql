@@ -1,15 +1,15 @@
 create role :databaseAppRole
  NOSUPERUSER NOINHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
  
- create role :databaseAppRole with 
+ create role :databaseAppUser with 
  LOGIN PASSWORD :databaseAppUserPassword
- NOSUPERUSER NOINHERIT NOCREATEDB NOCREATEROLE NOREPLICATION IN ROLE :databaseAppRole;
+ NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION IN ROLE :databaseAppRole;
 
 grant all on database :databaseName to :databaseAdmin;
 grant connect, temporary on database :databaseName to :databaseAppRole;
 revoke all on database :databaseName from public;
 
-CREATE SCHEMA :databaseSchema AUTHORIZATION :databaseAdminUser;
+CREATE SCHEMA :databaseSchema AUTHORIZATION :databaseAdmin;
 
 GRANT USAGE ON SCHEMA :databaseSchema TO :databaseAppRole;
 

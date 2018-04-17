@@ -16,9 +16,21 @@ For further instructions on how to develop with JHipster, have a look at [Using 
 
 ## Database baseline and update
 
-Must have local Postgres user odos_admin created with password 0d0sP455.
+Logged in as default Postgres user, run the following commands to create the role and database:
 
-run
+```
+CREATE USER odos_admin WITH
+  LOGIN PASSWORD '0d0sP455'
+  NOSUPERUSER
+  INHERIT
+  CREATEDB
+  CREATEROLE
+  NOREPLICATION;
+
+CREATE DATABASE odos_crrs_svc OWNER=odosadmin;
+```
+
+To baseline and update:
 
     ./gradlew baseline liquibaseUpdate
 

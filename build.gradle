@@ -2,10 +2,10 @@ import org.gradle.internal.os.OperatingSystem
 
 buildscript {
     repositories {
-        mavenLocal()
+        maven { url "http://nexus.lassiterdynamics.com:8081/repository/jcenter" }
+        maven { url "http://nexus.lassiterdynamics.com:8081/repository/spring-plugins-release" }
+        maven { url "http://nexus.lassiterdynamics.com:8081/repository/gradle-plugins" }
         jcenter()
-        maven { url "http://repo.spring.io/plugins-release" }
-        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
@@ -141,7 +141,7 @@ configurations {
 }
 
 repositories {
-    mavenLocal()
+    maven { url "http://nexus.lassiterdynamics.com:8081/repository/jcenter" }
     jcenter()
 }
 
@@ -209,7 +209,7 @@ dependencies {
     }
     compile "io.springfox:springfox-bean-validators"
     compile "org.postgresql:postgresql"
-    compile "org.mapstruct:mapstruct-jdk8:${mapstruct_version}"
+    compile "net.sf.dozer:dozer:5.5.1"
     testCompile "com.jayway.jsonpath:json-path"
     testCompile ("org.springframework.boot:spring-boot-starter-test") {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
@@ -225,6 +225,8 @@ dependencies {
     optional ("org.springframework.boot:spring-boot-configuration-processor") {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
+    testCompile "org.springframework:spring-test"
+    
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 

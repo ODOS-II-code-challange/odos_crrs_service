@@ -90,7 +90,7 @@ spring:
         platform: POSTGRESSQL
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://${CRRSVC_DATABASE_HOST:localhost}:${CRRSVC_DATABASE_PORT:5432}/${CRRSVC_DATABASE_NAME:odos_crrs_svc}?stringtype=unspecified
-        username: ${CRRSVC_DATABASE_USERNAME:odos_svc_app}
+        username: ${CRRSVC_DATABASE_USERNAME:odos_crrs_svc_app}
         password: ${CRRSVC_DATABASE_PASSWORD}
         tomcat:
           validation-query: SELECT 1

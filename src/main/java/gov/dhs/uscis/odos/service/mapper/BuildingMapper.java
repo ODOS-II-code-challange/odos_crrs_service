@@ -1,7 +1,11 @@
 package gov.dhs.uscis.odos.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.dozer.Mapper;
 
 import gov.dhs.uscis.odos.domain.Building;
 import gov.dhs.uscis.odos.service.dto.BuildingDTO;
@@ -9,14 +13,32 @@ import gov.dhs.uscis.odos.service.dto.BuildingDTO;
 /**
  * Mapper for the entity Building and its DTO BuildingDTO.
  */
+@Named
+public class BuildingMapper implements EntityMapper<BuildingDTO, Building> {
 
-@Mapper(componentModel = "spring", uses = {})
-public interface BuildingMapper {
+	@Inject
+	private Mapper mapper;
 
-	BuildingMapper INSTANCE = Mappers.getMapper(BuildingMapper.class);
+	@Override
+	public Building toEntity(BuildingDTO dto) {
+		return mapper.map(dto, Building.class);
+	}
 
-	Building toEntity(BuildingDTO dto);
+	@Override
+	public BuildingDTO toDto(Building entity) {
+		return mapper.map(entity, BuildingDTO.class);
+	}
 
-	BuildingDTO toDto(Building buildingEntity);
+	@Override
+	public List<Building> toEntity(List<BuildingDTO> dtoList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BuildingDTO> toDto(List<Building> entityList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -2,6 +2,8 @@ package gov.dhs.uscis.odos.service.impl;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,14 +24,12 @@ public class BuildingServiceImpl implements BuildingService {
 
     private final Logger log = LoggerFactory.getLogger(BuildingServiceImpl.class);
 
-    private final BuildingRepository buildingRepository;
-
+    @Inject
+    private  BuildingRepository buildingRepository;
     
+    @Inject
+    private BuildingMapper buildingMapper;
 
-    public BuildingServiceImpl(BuildingRepository buildingRepository) {
-        this.buildingRepository = buildingRepository;
-      
-    }
 
     /**
      * Save a building.
@@ -39,10 +39,9 @@ public class BuildingServiceImpl implements BuildingService {
      */
     @Override
     public BuildingDTO save(BuildingDTO buildingDTO) {
-        log.debug("Request to save Building : {}", buildingDTO);
-        Building building  = BuildingMapper.INSTANCE.toEntity( buildingDTO );
-        building = buildingRepository.save(building);
-        return BuildingMapper.INSTANCE.toDto( building );
+    	log.debug("Request to save Building : {}", buildingDTO);
+    	Building building = buildingRepository.save(buildingMapper.toEntity(buildingDTO));
+        return buildingMapper.toDto(building);
     }
 
     /**

@@ -9,7 +9,12 @@ import java.util.Objects;
  */
 public class BuildingDTO implements Serializable {
 
-    private Long buildingId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6613433690413368185L;
+
+	private Long buildingId;
 
     private String buildingName;
 

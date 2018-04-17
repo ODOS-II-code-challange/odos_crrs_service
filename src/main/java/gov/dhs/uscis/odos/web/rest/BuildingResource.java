@@ -17,6 +17,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.inject.Inject;
+
 /**
  * REST controller for managing Building.
  */
@@ -28,11 +30,9 @@ public class BuildingResource {
 
     private static final String ENTITY_NAME = "building";
 
-    private final BuildingService buildingService;
-
-    public BuildingResource(BuildingService buildingService) {
-        this.buildingService = buildingService;
-    }
+    @Inject
+    private  BuildingService buildingService;
+   
 
     /**
      * POST  /buildings : Create a new building.
@@ -46,7 +46,7 @@ public class BuildingResource {
     public ResponseEntity<BuildingDTO> createBuilding(@RequestBody BuildingDTO buildingDTO) throws URISyntaxException {
         log.debug("REST request to save Building : {}", buildingDTO);
         if (buildingDTO.getBuildingId() != null) {
-            throw new BadRequestAlertException("A new building cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("A new building cannot already have an ID", ENTITY_NAME, "id exists");
         }
         BuildingDTO result = buildingService.save(buildingDTO);
         return ResponseEntity.created(new URI("/api/buildings/" + result.getBuildingId()))

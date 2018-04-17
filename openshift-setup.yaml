@@ -1,0 +1,69 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: crrsvc
+  name: crrsvc
+  # namespace: odos-test
+spec:
+  replicas: 1
+  selector:
+    deploymentconfig: crrsvc
+  template:
+    metadata:
+      labels:
+        app: crrsvc
+        deploymentconfig: crrsvc
+    spec:
+      containers:
+        - image: crrsvc:latest
+          imagePullPolicy: Always
+          name: crrsvc
+          ports:
+            - containerPort: 8181
+              protocol: TCP
+          resources: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - crrsvc
+        from:
+          kind: ImageStreamTag
+          name: crrsvc:latest
+          # namespace: odos-test
+      type: ImageChange
+    - type: ConfigChange
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crrsvc
+spec:
+  selector:
+    docker-registry: default
+  ports:
+  - nodePort: 0
+    port: 8181
+    protocol: TCP
+    targetPort: 8181
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: crrsvc
+spec:
+  host: crrsvc-odos-ii-test.pro-us-east-1.openshiftapps.com
+  port:
+    targetPort: 8181
+  to:
+    kind: Service
+    name: crrsvc
+    weight: 100
+  wildcardPolicy: None

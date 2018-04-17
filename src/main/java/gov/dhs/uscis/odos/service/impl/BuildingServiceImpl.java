@@ -1,6 +1,8 @@
 package gov.dhs.uscis.odos.service.impl;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -53,10 +55,9 @@ public class BuildingServiceImpl implements BuildingService {
     @Transactional(readOnly = true)
     public List<BuildingDTO> findAll() {
         log.debug("Request to get all Buildings");
-        return null;
-//        return buildingRepository.findAll().stream()
-//            .map(buildingMapper::toDto)
-//            .collect(Collectors.toCollection(LinkedList::new));
+        return buildingRepository.findAll().stream()
+            .map(buildingMapper::toDto)
+           .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

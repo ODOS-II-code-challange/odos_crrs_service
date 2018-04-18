@@ -15,7 +15,7 @@
 			conf_title varchar(200) not null,
 			primary key (conf_sch_id)
 			);
-			COMMENT ON TABLE create table odos_crrs_svc.conf_sched IS 'Represents the conference schedule'; 
+			COMMENT ON TABLE odos_crrs_svc.conf_sched IS 'Represents the conference schedule'; 
 			COMMENT ON COLUMN odos_crrs_svc.conf_sched.equip.conf_sch_id IS 'Primary key of the conference schedule'; 
 			COMMENT ON COLUMN odos_crrs_svc.conf_sched.equip.conf_rm_id IS 'Primary key of the conference room'; 
 			COMMENT ON COLUMN odos_crrs_svc.conf_sched.equip.start_dttm IS 'Start Date of the conference schedule'; 

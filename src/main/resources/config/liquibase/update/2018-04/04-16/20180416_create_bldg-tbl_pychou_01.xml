@@ -14,7 +14,7 @@
           bldg_dsc varchar(200),
           primary key (bldg_id)
         );
-        COMMENT ON TABLE create table odos_crrs_svc.bldg IS 'Represents the conference building'; 
+        COMMENT ON TABLE odos_crrs_svc.bldg IS 'Represents the conference building'; 
         COMMENT ON COLUMN odos_crrs_svc.bldg.equip.bldg_id IS 'Primary key of the conference building'; 
         COMMENT ON COLUMN odos_crrs_svc.bldg.equip.bldg_nm IS 'Name of the conference building'; 
         COMMENT ON COLUMN odos_crrs_svc.bldg.equip.bldg_dsc IS 'Description of the conference building';

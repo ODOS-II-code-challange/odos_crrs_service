@@ -1,11 +1,21 @@
 package gov.dhs.uscis.odos.web.rest;
 
-import gov.dhs.uscis.odos.CrrsvcApp;
+import static gov.dhs.uscis.odos.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
-import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
-import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
-import gov.dhs.uscis.odos.web.rest.errors.ExceptionTranslator;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,16 +31,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.List;
-
-import static gov.dhs.uscis.odos.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import gov.dhs.uscis.odos.CrrsvcApp;
+import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
+import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
+import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
+import gov.dhs.uscis.odos.web.rest.errors.ExceptionTranslator;
 
 /**
  * Test class for the ConferenceRoomScheduleResource REST controller.

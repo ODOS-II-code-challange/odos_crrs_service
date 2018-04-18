@@ -2,6 +2,7 @@ package gov.dhs.uscis.odos.service.dto;
 
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,6 +20,8 @@ public class BuildingDTO implements Serializable {
     private String buildingName;
 
     private String buildingDesc;
+    
+    private List<ConferenceRoomDTO> conferenceRooms;
 
     public Long getBuildingId() {
         return buildingId;
@@ -44,7 +47,15 @@ public class BuildingDTO implements Serializable {
         this.buildingDesc = buildingDesc;
     }
 
-    @Override
+    public List<ConferenceRoomDTO> getConferenceRooms() {
+		return conferenceRooms;
+	}
+
+	public void setConferenceRooms(List<ConferenceRoomDTO> conferenceRooms) {
+		this.conferenceRooms = conferenceRooms;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

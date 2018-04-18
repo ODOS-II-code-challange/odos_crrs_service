@@ -1,19 +1,14 @@
-create role :databaseAppRole
+create role :databaseAppRole with 
+ LOGIN PASSWORD :databaseAppPassword
  NOSUPERUSER NOINHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
- 
- create role :databaseAppUser with 
- LOGIN PASSWORD :databaseAppUserPassword
- NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION IN ROLE :databaseAppRole;
 
-grant all on database :databaseName to :databaseAdmin;
+grant all on database :databaseName to :databaseAdminUser;
 grant connect, temporary on database :databaseName to :databaseAppRole;
 revoke all on database :databaseName from public;
 
-CREATE SCHEMA :databaseSchema AUTHORIZATION :databaseAdmin;
+CREATE SCHEMA :databaseSchema AUTHORIZATION :databaseAdminUser;
 
 GRANT USAGE ON SCHEMA :databaseSchema TO :databaseAppRole;
-
-ALTER ROLE :databaseAppRole WITH LOGIN;
 
 ALTER DEFAULT PRIVILEGES IN SCHEMA :databaseSchema
  GRANT INSERT, UPDATE, DELETE, SELECT, TRUNCATE, REFERENCES, TRIGGER ON TABLES
@@ -22,12 +17,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA :databaseSchema
 ALTER DEFAULT PRIVILEGES IN SCHEMA :databaseSchema
  GRANT SELECT, USAGE ON SEQUENCES
  TO :databaseAppRole;
- 
-ALTER DEFAULT PRIVILEGES IN SCHEMA :databaseSchema
- GRANT SELECT, USAGE ON SEQUENCES
- TO :databaseAppRole;
 
 
-CREATE SCHEMA :liquibaseSchema AUTHORIZATION :databaseAdmin;
 
 

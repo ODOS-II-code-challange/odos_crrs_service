@@ -77,6 +77,7 @@ classes/
 ######################
 .gradle/
 /build/
+.jhipster/
 
 ######################
 # Package Files
@@ -141,3 +142,4 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+/.apt_generated/

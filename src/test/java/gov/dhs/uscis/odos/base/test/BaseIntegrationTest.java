@@ -1,7 +1,5 @@
 package gov.dhs.uscis.odos.base.test;
 
-import javax.transaction.Transactional;
-
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -12,8 +10,7 @@ import gov.dhs.uscis.odos.CrrsvcApp;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = CrrsvcApp.class)
-@ActiveProfiles("dev, no-liqubase")
-@Transactional
+@ActiveProfiles("test, no-liquibase")
 public abstract class BaseIntegrationTest {
 
 }

@@ -30,7 +30,7 @@ public class ConferenceRoomSchedule implements Serializable {
 	@Column(name = "start_dttm")
 	private LocalDate roomScheduleStartTime;
 
-	@Column(name = "endt_dttm")
+	@Column(name = "end_dttm")
 	private LocalDate roomScheduleEndTime;
 
 	@Column(name = "conf_title")

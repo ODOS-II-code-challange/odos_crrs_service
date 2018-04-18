@@ -23,10 +23,6 @@ public class ConferenceRoomSchedule implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "conf_sch_id")
 	private Long id;
-	
-	@ManyToOne(targetEntity=ConferenceRoom.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "conf_rm_id")
-	private ConferenceRoom conferenceRoom;
 
 	@Column(name = "req_id")
 	private Long requestorId;
@@ -39,6 +35,10 @@ public class ConferenceRoomSchedule implements Serializable {
 
 	@Column(name = "conf_title")
 	private String conferenceTitle;
+
+	@ManyToOne(targetEntity = ConferenceRoom.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "conf_rm_id")
+	private ConferenceRoom conferenceRoom;
 
 	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
 	// setters here, do not remove
@@ -128,10 +128,9 @@ public class ConferenceRoomSchedule implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ConferenceRoomSchedule [id=" + id + ", requestorId="
-				+ requestorId + ", roomScheduleStartTime=" + roomScheduleStartTime + ", roomScheduleEndTime="
-				+ roomScheduleEndTime + ", conferenceTitle=" + conferenceTitle + ", conferenceRoom=" + conferenceRoom
-				+ "]";
+		return "ConferenceRoomSchedule [id=" + id + ", requestorId=" + requestorId + ", roomScheduleStartTime="
+				+ roomScheduleStartTime + ", roomScheduleEndTime=" + roomScheduleEndTime + ", conferenceTitle="
+				+ conferenceTitle + ", conferenceRoom=" + conferenceRoom + "]";
 	}
 
 }

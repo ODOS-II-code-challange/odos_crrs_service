@@ -3,7 +3,7 @@ project.sourceSets {
     gatling {
         scala.srcDirs = ['src/test//gatling']
         resources.srcDirs = ['src/test//gatling/user-files/simulations',
-                'src/test//gatling/user-files/data', 'src/test//gatling/user-files/body', 'src/test//gatling/conf']
+                'src/test//gatling/user-files/data', 'src/test//gatling/user-files/body']
     }
 }
 

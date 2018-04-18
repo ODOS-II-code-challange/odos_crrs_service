@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -41,9 +40,6 @@ import gov.dhs.uscis.odos.web.rest.errors.ExceptionTranslator;
  * @see BuildingResource
  */
 public class BuildingResourceIntTest extends BaseIntegrationTest {
-
-    private static final Long DEFAULT_BUILD_ID = 1L;
-    private static final Long UPDATED_BUILD_ID = 2L;
 
     private static final String DEFAULT_BUILDING_NAME = "AAAAAAAAAA";
     private static final String UPDATED_BUILDING_NAME = "BBBBBBBBBB";
@@ -95,7 +91,6 @@ public class BuildingResourceIntTest extends BaseIntegrationTest {
      */
     public static Building createEntity(EntityManager em) {
         Building building = new Building()
-            .buildingId(DEFAULT_BUILD_ID)
             .buildingName(DEFAULT_BUILDING_NAME)
             .buildingDesc(DEFAULT_BUILDING_DESC);
         return building;
@@ -105,7 +100,7 @@ public class BuildingResourceIntTest extends BaseIntegrationTest {
     public void initTest() {
         building = createEntity(em);
     }
-    @Ignore
+    
     @Test
     @Transactional
     public void createBuilding() throws Exception {
@@ -122,7 +117,7 @@ public class BuildingResourceIntTest extends BaseIntegrationTest {
         List<Building> buildingList = buildingRepository.findAll();
         assertThat(buildingList).hasSize(databaseSizeBeforeCreate + 1);
         Building testBuilding = buildingList.get(buildingList.size() - 1);
-        assertThat(testBuilding.getBuildingId()).isEqualTo(DEFAULT_BUILD_ID);
+        //assertThat(testBuilding.getBuildingId()).isEqualTo(DEFAULT_BUILD_ID);
         assertThat(testBuilding.getBuildingName()).isEqualTo(DEFAULT_BUILDING_NAME);
         assertThat(testBuilding.getBuildingDesc()).isEqualTo(DEFAULT_BUILDING_DESC);
     }
@@ -148,35 +143,35 @@ public class BuildingResourceIntTest extends BaseIntegrationTest {
     }
 
     
-    @Ignore
+    
     @Test
     @Transactional
     public void getAllBuildings() throws Exception {
         // Initialize the database
-        buildingRepository.saveAndFlush(building);
+        Building updatedBldg = buildingRepository.saveAndFlush(building);
 
+        BuildingDTO buildingDTO = buildingMapper.toDto(updatedBldg);
+        
         // Get all the buildingList
-        restBuildingMockMvc.perform(get("/api/buildings?sort=id,desc"))
+        restBuildingMockMvc.perform(get("/api/buildings?sort=id,desc").content(TestUtil.convertObjectToJsonBytes(buildingDTO)))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(building.getBuildingId().intValue())))
-            .andExpect(jsonPath("$.[*].buildId").value(hasItem(DEFAULT_BUILD_ID)))
+            .andExpect(jsonPath("$.[*].buildingId").value(hasItem(updatedBldg.getBuildingId().intValue())))
             .andExpect(jsonPath("$.[*].buildingName").value(hasItem(DEFAULT_BUILDING_NAME.toString())))
             .andExpect(jsonPath("$.[*].buildingDesc").value(hasItem(DEFAULT_BUILDING_DESC.toString())));
     }
-    @Ignore
+
     @Test
     @Transactional
     public void getBuilding() throws Exception {
         // Initialize the database
-        buildingRepository.saveAndFlush(building);
+        Building updatedBuilding = buildingRepository.saveAndFlush(building);
 
         // Get the building
-        restBuildingMockMvc.perform(get("/api/buildings/{id}", building.getBuildingId()))
+        restBuildingMockMvc.perform(get("/api/buildings/{id}", updatedBuilding.getBuildingId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(building.getBuildingId().intValue()))
-            .andExpect(jsonPath("$.buildId").value(DEFAULT_BUILD_ID))
+            .andExpect(jsonPath("$.buildingId").value(updatedBuilding.getBuildingId()))
             .andExpect(jsonPath("$.buildingName").value(DEFAULT_BUILDING_NAME.toString()))
             .andExpect(jsonPath("$.buildingDesc").value(DEFAULT_BUILDING_DESC.toString()));
     }
@@ -188,20 +183,19 @@ public class BuildingResourceIntTest extends BaseIntegrationTest {
         restBuildingMockMvc.perform(get("/api/buildings/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());
     }
-    @Ignore
+
     @Test
     @Transactional
     public void updateBuilding() throws Exception {
         // Initialize the database
-        buildingRepository.saveAndFlush(building);
+    	Building updatedBuilding = buildingRepository.saveAndFlush(building);
         int databaseSizeBeforeUpdate = buildingRepository.findAll().size();
 
         // Update the building
-        Building updatedBuilding = buildingRepository.findOne(building.getBuildingId());
+        updatedBuilding = buildingRepository.findOne(updatedBuilding.getBuildingId());
         // Disconnect from session so that the updates on updatedBuilding are not directly saved in db
-        em.detach(updatedBuilding);
+        //em.detach(updatedBuilding);
         updatedBuilding
-            .buildingId(UPDATED_BUILD_ID)
             .buildingName(UPDATED_BUILDING_NAME)
             .buildingDesc(UPDATED_BUILDING_DESC);
         BuildingDTO buildingDTO = buildingMapper.toDto(updatedBuilding);
@@ -215,7 +209,7 @@ public class BuildingResourceIntTest extends BaseIntegrationTest {
         List<Building> buildingList = buildingRepository.findAll();
         assertThat(buildingList).hasSize(databaseSizeBeforeUpdate);
         Building testBuilding = buildingList.get(buildingList.size() - 1);
-        assertThat(testBuilding.getBuildingId()).isEqualTo(UPDATED_BUILD_ID);
+        assertThat(testBuilding.getBuildingId()).isEqualTo(updatedBuilding.getBuildingId());
         assertThat(testBuilding.getBuildingName()).isEqualTo(UPDATED_BUILDING_NAME);
         assertThat(testBuilding.getBuildingDesc()).isEqualTo(UPDATED_BUILDING_DESC);
     }
@@ -238,7 +232,7 @@ public class BuildingResourceIntTest extends BaseIntegrationTest {
         List<Building> buildingList = buildingRepository.findAll();
         assertThat(buildingList).hasSize(databaseSizeBeforeUpdate + 1);
     }
-    @Ignore
+
     @Test
     @Transactional
     public void deleteBuilding() throws Exception {

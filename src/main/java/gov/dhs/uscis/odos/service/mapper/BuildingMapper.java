@@ -32,6 +32,7 @@ public class BuildingMapper implements EntityMapper<BuildingDTO, Building> {
 
 	@Override
 	public BuildingDTO toDto(Building entity) {
+		if (entity == null) return null;
 		BuildingDTO buildingDTO = mapper.map(entity, BuildingDTO.class);
 		buildingDTO.setConferenceRooms(conferenceRoomService.findAll());
 		return buildingDTO;

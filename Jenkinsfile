@@ -23,15 +23,7 @@ pipeline {
                 }
             }
         }
-        stage('Sonar Scan') {
-          steps {
-            script{
-              Common.slack 'Sonar Scan and Upload...'
-              Common.sonarScan()
-            }
-          }
-        }
-		stage('liquibase') {
+        stage('liquibase') {
 		  steps {
 		  	script{
 		      Common.slack 'Running liquibase baseline and update...'
@@ -43,6 +35,14 @@ pipeline {
 		      }
 		    }
 		}
+        stage('Sonar Scan') {
+          steps {
+            script{
+              Common.slack 'Sonar Scan and Upload...'
+              Common.sonarScan()
+            }
+          }
+        }
         stage('Fortify Scan') {
             steps {
               script{

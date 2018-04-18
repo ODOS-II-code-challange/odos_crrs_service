@@ -96,7 +96,7 @@ if (OperatingSystem.current().isWindows()) {
 
 test {
     exclude '**/CucumberTest*'
-
+	
     // uncomment if the tests reports are not generated
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
     // ignoreFailures true
@@ -108,6 +108,9 @@ task testReport(type: TestReport) {
     reportOn test
 }
 
+tasks.withType(Test) {
+	environment "databaseAppPassword", "${databaseAppPassword}"
+}
 
 apply from: 'gradle/docker.gradle'
 apply from: 'gradle/sonar.gradle'

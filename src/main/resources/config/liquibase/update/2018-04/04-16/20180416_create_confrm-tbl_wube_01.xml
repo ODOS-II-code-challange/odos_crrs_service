@@ -20,10 +20,10 @@
         COMMENT ON TABLE odos_crrs_svc.conf_rm IS 'Represents the conference room'; 
         COMMENT ON COLUMN odos_crrs_svc.conf_rm.conf_rm_id IS 'Primary key of the conference room'; 
         COMMENT ON COLUMN odos_crrs_svc.conf_rm.rm_num IS 'Number of the conference room'; 
-        COMMENT ON COLUMN odos_crrs_svc.conf_rm.  IS 'Name of the conference room'; 
+        COMMENT ON COLUMN odos_crrs_svc.conf_rm.rm_name  IS 'Name of the conference room'; 
         COMMENT ON COLUMN odos_crrs_svc.conf_rm.rm_capcity IS 'Capacity of the conference room'; 
         COMMENT ON COLUMN odos_crrs_svc.conf_rm.rm_active_ind IS 'Indicator if the conference room is active'; 
-        COMMENT ON COLUMN odos_crrs_svc.conf_rm.bldg_id IS 'Building's  primary id'; 
+        COMMENT ON COLUMN odos_crrs_svc.conf_rm.bldg_id IS 'Building''s  primary id'; 
       </sql>
     </changeSet>
 </databaseChangeLog>

@@ -13,7 +13,7 @@
 			primary key (equip_id)
 			);
 			COMMENT ON TABLE odos_crrs_svc.equip IS 'Represents the equipment'; 
-			COMMENT ON COLUMN odos_crrs_svc.equip.quip_id IS 'Primary key of the equipment'; 
+			COMMENT ON COLUMN odos_crrs_svc.equip.equip_id IS 'Primary key of the equipment'; 
 			COMMENT ON COLUMN odos_crrs_svc.equip.equip_name IS 'Name of the equipment'; 
 			COMMENT ON COLUMN odos_crrs_svc.equip.equip_desc IS 'Description of the equipment'; 
 		</sql>

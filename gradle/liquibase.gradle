@@ -103,7 +103,7 @@ def liquibaseCommand(command) {
         args "--referenceUrl=hibernate:spring:gov.dhs.uscis.odos.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
         args "--username=${databaseAdmin}"
         args "--password=${databasePassword}"
-        args "--defaultSchemaName=${databaseName}"
+        args "--defaultSchemaName=${databaseSchema}"
         args "--url=jdbc:postgresql://${databaseHost}:${databasePort}/${databaseName}"
         args "--driver=org.postgresql.Driver"
         args command

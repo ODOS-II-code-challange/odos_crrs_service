@@ -18,7 +18,7 @@ import gov.dhs.uscis.odos.service.dto.ConferenceRoomDTO;
 import gov.dhs.uscis.odos.service.mapper.ConferenceRoomMapper;
 
 /**
- * Service Implementation for managing Building.
+ * Service Implementation for managing ConferenceRoom.
  */
 @Service
 @Transactional
@@ -36,7 +36,7 @@ public class ConferenceRoomServiceImpl implements ConferenceRoomService {
     /**
      * Save a conference room.
      *
-     * @param buildingDTO the entity to save
+     * @param conferenceRoomDTO the entity to save
      * @return the persisted entity
      */
     @Override

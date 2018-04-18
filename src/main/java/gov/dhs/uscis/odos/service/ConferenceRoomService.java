@@ -5,27 +5,27 @@ import java.util.List;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomDTO;
 
 /**
- * Service Interface for managing Building.
+ * Service Interface for managing ConferenceRoom.
  */
 public interface ConferenceRoomService {
 
     /**
-     * Save a building.
+     * Save a conference room.
      *
-     * @param buildingDTO the entity to save
+     * @param conferenceRoomDTO the entity to save
      * @return the persisted entity
      */
     ConferenceRoomDTO save(ConferenceRoomDTO conferenceRoomDTO);
 
     /**
-     * Get all the buildings.
+     * Get all the conference rooms.
      *
      * @return the list of entities
      */
     List<ConferenceRoomDTO> findAll();
 
     /**
-     * Get the "id" building.
+     * Get the "id" conference room.
      *
      * @param id the id of the entity
      * @return the entity
@@ -33,7 +33,7 @@ public interface ConferenceRoomService {
     ConferenceRoomDTO findOne(Long id);
 
     /**
-     * Delete the "id" building.
+     * Delete the "id" conference room.
      *
      * @param id the id of the entity
      */

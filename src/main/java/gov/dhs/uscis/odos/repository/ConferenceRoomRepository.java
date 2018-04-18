@@ -7,7 +7,7 @@ import gov.dhs.uscis.odos.domain.ConferenceRoom;
 
 
 /**
- * Spring Data JPA repository for the Building entity.
+ * Spring Data JPA repository for the ConferenceRoom entity.
  */
 @Repository
 public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, Long> {

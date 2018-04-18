@@ -8,7 +8,7 @@ import gov.dhs.uscis.odos.domain.Building;
 import gov.dhs.uscis.odos.domain.enums.ActiveIndicatorEnum;
 
 /**
- * A DTO for the Building entity.
+ * A DTO for the ConferenceRoom entity.
  */
 public class ConferenceRoomDTO implements Serializable {
 
@@ -86,11 +86,11 @@ public class ConferenceRoomDTO implements Serializable {
             return false;
         }
 
-        ConferenceRoomDTO buildingDTO = (ConferenceRoomDTO) o;
-        if(buildingDTO.getConferenceRoomId() == null || getConferenceRoomId() == null) {
+        ConferenceRoomDTO conferenceRoomDTO = (ConferenceRoomDTO) o;
+        if(conferenceRoomDTO.getConferenceRoomId() == null || getConferenceRoomId() == null) {
             return false;
         }
-        return Objects.equals(getConferenceRoomId(), buildingDTO.getConferenceRoomId());
+        return Objects.equals(getConferenceRoomId(), conferenceRoomDTO.getConferenceRoomId());
     }
 
     @Override

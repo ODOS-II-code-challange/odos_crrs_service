@@ -12,7 +12,7 @@ import gov.dhs.uscis.odos.CrrsvcApp;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = CrrsvcApp.class)
-@ActiveProfiles("dev, no-liqubase")
+@ActiveProfiles("test, no-liquibase")
 @Transactional
 public abstract class BaseIntegrationTest {
 

@@ -37,7 +37,7 @@ public class ConferenceRoomSchedule implements Serializable {
 	@Column(name = "end_dttm")
 	private LocalDate roomScheduleEndTime;
 
-	@Column(name = "room_schedule_end_time")
+	@Column(name = "conf_title")
 	private String conferenceTitle;
 
 	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and

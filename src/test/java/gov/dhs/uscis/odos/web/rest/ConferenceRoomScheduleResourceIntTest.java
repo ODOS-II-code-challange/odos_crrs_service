@@ -1,45 +1,48 @@
 package gov.dhs.uscis.odos.web.rest;
 
-import gov.dhs.uscis.odos.CrrsvcApp;
+import static gov.dhs.uscis.odos.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
-import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
-import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
-import gov.dhs.uscis.odos.web.rest.errors.ExceptionTranslator;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static gov.dhs.uscis.odos.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import javax.persistence.EntityManager;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
+import gov.dhs.uscis.odos.base.test.BaseIntegrationTest;
+import gov.dhs.uscis.odos.domain.Building;
+import gov.dhs.uscis.odos.domain.ConferenceRoom;
+import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
+import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
+import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
+import gov.dhs.uscis.odos.web.rest.errors.ExceptionTranslator;
 
 /**
  * Test class for the ConferenceRoomScheduleResource REST controller.
  *
  * @see ConferenceRoomScheduleResource
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = CrrsvcApp.class)
-public class ConferenceRoomScheduleResourceIntTest {
+
+public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
 
 	private static final Long DEFAULT_CONFERENCE_ROOM_SCHEDULE_ID = 1L;
 
@@ -96,10 +99,20 @@ public class ConferenceRoomScheduleResourceIntTest {
 	 */
 	public static ConferenceRoomSchedule createEntity(EntityManager em) {
 		ConferenceRoomSchedule conferenceRoomSchedule = new ConferenceRoomSchedule();
-		conferenceRoomSchedule.setConferenceRoomId(DEFAULT_CONFERENCE_ROOM_ID);
+		conferenceRoomSchedule.setId(DEFAULT_CONFERENCE_ROOM_SCHEDULE_ID);
 		conferenceRoomSchedule.setRequestorId(DEFAULT_REQUESTOR_ID);
+		conferenceRoomSchedule.setConferenceTitle("AARP");
 		conferenceRoomSchedule.setRoomScheduleStartTime(DEFAULT_ROOM_SCHEDULE_START_TIME);
 		conferenceRoomSchedule.setRoomScheduleEndTime(DEFAULT_ROOM_SCHEDULE_END_TIME);
+		
+		Building building = new Building();
+		building.setBuildingId(1L);
+		
+		ConferenceRoom room = new ConferenceRoom();
+		room.setConferenceRoomId(DEFAULT_CONFERENCE_ROOM_ID);
+		room.setBuilding(building);
+		
+		conferenceRoomSchedule.setConferenceRoom(room);
 		return conferenceRoomSchedule;
 	}
 
@@ -124,7 +137,7 @@ public class ConferenceRoomScheduleResourceIntTest {
 		assertThat(conferenceRoomScheduleList).hasSize(databaseSizeBeforeCreate + 1);
 		ConferenceRoomSchedule testConferenceRoomSchedule = conferenceRoomScheduleList
 				.get(conferenceRoomScheduleList.size() - 1);
-		assertThat(testConferenceRoomSchedule.getConferenceRoomId()).isEqualTo(DEFAULT_CONFERENCE_ROOM_ID);
+		assertThat(testConferenceRoomSchedule.getId()).isEqualTo(DEFAULT_CONFERENCE_ROOM_SCHEDULE_ID);
 		assertThat(testConferenceRoomSchedule.getRequestorId()).isEqualTo(DEFAULT_REQUESTOR_ID);
 		assertThat(testConferenceRoomSchedule.getRoomScheduleStartTime()).isEqualTo(DEFAULT_ROOM_SCHEDULE_START_TIME);
 		assertThat(testConferenceRoomSchedule.getRoomScheduleEndTime()).isEqualTo(DEFAULT_ROOM_SCHEDULE_END_TIME);
@@ -209,10 +222,11 @@ public class ConferenceRoomScheduleResourceIntTest {
 		// Disconnect from session so that the updates on updatedConferenceRoomSchedule
 		// are not directly saved in db
 		em.detach(updatedConferenceRoomSchedule);
-		updatedConferenceRoomSchedule.conferenceRoomId(UPDATED_CONFERENCE_ROOM_ID).requestorId(UPDATED_REQUESTOR_ID)
+		updatedConferenceRoomSchedule.requestorId(UPDATED_REQUESTOR_ID)
 				.roomScheduleStartTime(UPDATED_ROOM_SCHEDULE_START_TIME)
 				.roomScheduleEndTime(UPDATED_ROOM_SCHEDULE_END_TIME);
-
+		updatedConferenceRoomSchedule.setId(UPDATED_CONFERENCE_ROOM_ID);
+		
 		restConferenceRoomScheduleMockMvc
 				.perform(put("/api/conference-room-schedules").contentType(TestUtil.APPLICATION_JSON_UTF8)
 						.content(TestUtil.convertObjectToJsonBytes(updatedConferenceRoomSchedule)))
@@ -223,7 +237,7 @@ public class ConferenceRoomScheduleResourceIntTest {
 		assertThat(conferenceRoomScheduleList).hasSize(databaseSizeBeforeUpdate);
 		ConferenceRoomSchedule testConferenceRoomSchedule = conferenceRoomScheduleList
 				.get(conferenceRoomScheduleList.size() - 1);
-		assertThat(testConferenceRoomSchedule.getConferenceRoomId()).isEqualTo(UPDATED_CONFERENCE_ROOM_ID);
+		assertThat(testConferenceRoomSchedule.getId()).isEqualTo(UPDATED_CONFERENCE_ROOM_ID);
 		assertThat(testConferenceRoomSchedule.getRequestorId()).isEqualTo(UPDATED_REQUESTOR_ID);
 		assertThat(testConferenceRoomSchedule.getRoomScheduleStartTime()).isEqualTo(UPDATED_ROOM_SCHEDULE_START_TIME);
 		assertThat(testConferenceRoomSchedule.getRoomScheduleEndTime()).isEqualTo(UPDATED_ROOM_SCHEDULE_END_TIME);

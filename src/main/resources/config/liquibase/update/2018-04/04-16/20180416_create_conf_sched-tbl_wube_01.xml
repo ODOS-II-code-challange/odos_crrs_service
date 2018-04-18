@@ -16,11 +16,11 @@
 			primary key (conf_sch_id)
 			);
 			COMMENT ON TABLE odos_crrs_svc.conf_sched IS 'Represents the conference schedule'; 
-			COMMENT ON COLUMN odos_crrs_svc.conf_sched.equip.conf_sch_id IS 'Primary key of the conference schedule'; 
-			COMMENT ON COLUMN odos_crrs_svc.conf_sched.equip.conf_rm_id IS 'Primary key of the conference room'; 
-			COMMENT ON COLUMN odos_crrs_svc.conf_sched.equip.start_dttm IS 'Start Date of the conference schedule'; 
-			COMMENT ON COLUMN odos_crrs_svc.conf_sched.equip.ednt_dttm IS 'End Date of the conference schedule'; 
-			COMMENT ON COLUMN odos_crrs_svc.conf_sched.equip.conf_title IS 'Tittle of the conference schedule'; 
+			COMMENT ON COLUMN odos_crrs_svc.conf_sched.conf_sch_id IS 'Primary key of the conference schedule'; 
+			COMMENT ON COLUMN odos_crrs_svc.conf_sched.conf_rm_id IS 'Primary key of the conference room'; 
+			COMMENT ON COLUMN odos_crrs_svc.conf_sched.start_dttm IS 'Start Date of the conference schedule'; 
+			COMMENT ON COLUMN odos_crrs_svc.conf_sched.end_dttm IS 'End Date of the conference schedule'; 
+			COMMENT ON COLUMN odos_crrs_svc.conf_sched.conf_title IS 'Tittle of the conference schedule'; 
 		</sql>
 	</changeSet>
 </databaseChangeLog>

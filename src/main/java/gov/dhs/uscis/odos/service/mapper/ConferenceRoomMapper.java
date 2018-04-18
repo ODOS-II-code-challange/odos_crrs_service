@@ -21,22 +21,10 @@ public class ConferenceRoomMapper implements EntityMapper<ConferenceRoomDTO, Con
 
 	@Inject
 	private Mapper mapper;
-	
-	@Inject
-	private BuildingRepository buildingRepository;
 
 	@Override
-	public ConferenceRoom toEntity(ConferenceRoomDTO dto) {
-		ConferenceRoom conferenceRoom = new ConferenceRoom();
-		conferenceRoom.setActiveIndicator(dto.getActiveIndicator());
-		Building building = buildingRepository.findOne(dto.getBuilding().getBuildingId());
-		conferenceRoom.setBuilding(building);
-		conferenceRoom.setConferenceRoomId(dto.getConferenceRoomId());
-		conferenceRoom.setRoomCapacity(dto.getRoomCapacity());
-		conferenceRoom.setRoomName(dto.getRoomName());
-		conferenceRoom.setRoomNum(dto.getRoomNum());
-		
-		return conferenceRoom;
+	public ConferenceRoom toEntity(ConferenceRoomDTO dto) {	
+		return mapper.map(dto, ConferenceRoom.class);
 	}
 
 	@Override

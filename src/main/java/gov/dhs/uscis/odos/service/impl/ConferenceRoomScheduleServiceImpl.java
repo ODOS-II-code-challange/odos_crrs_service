@@ -1,14 +1,17 @@
 package gov.dhs.uscis.odos.service.impl;
 
-import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
-import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
-import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
+import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
+import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
 
 
 /**
@@ -20,11 +23,8 @@ public class ConferenceRoomScheduleServiceImpl implements ConferenceRoomSchedule
 
     private final Logger log = LoggerFactory.getLogger(ConferenceRoomScheduleServiceImpl.class);
 
-    private final ConferenceRoomScheduleRepository conferenceRoomScheduleRepository;
-
-    public ConferenceRoomScheduleServiceImpl(ConferenceRoomScheduleRepository conferenceRoomScheduleRepository) {
-        this.conferenceRoomScheduleRepository = conferenceRoomScheduleRepository;
-    }
+    @Inject
+    private ConferenceRoomScheduleRepository conferenceRoomScheduleRepository;
 
     /**
      * Save a conferenceRoomSchedule.

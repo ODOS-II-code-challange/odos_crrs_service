@@ -96,7 +96,6 @@ public class ConferenceRoomScheduleResourceIntTest {
 	 */
 	public static ConferenceRoomSchedule createEntity(EntityManager em) {
 		ConferenceRoomSchedule conferenceRoomSchedule = new ConferenceRoomSchedule();
-		conferenceRoomSchedule.setConferenceRoomId(DEFAULT_CONFERENCE_ROOM_ID);
 		conferenceRoomSchedule.setRequestorId(DEFAULT_REQUESTOR_ID);
 		conferenceRoomSchedule.setRoomScheduleStartTime(DEFAULT_ROOM_SCHEDULE_START_TIME);
 		conferenceRoomSchedule.setRoomScheduleEndTime(DEFAULT_ROOM_SCHEDULE_END_TIME);
@@ -124,7 +123,6 @@ public class ConferenceRoomScheduleResourceIntTest {
 		assertThat(conferenceRoomScheduleList).hasSize(databaseSizeBeforeCreate + 1);
 		ConferenceRoomSchedule testConferenceRoomSchedule = conferenceRoomScheduleList
 				.get(conferenceRoomScheduleList.size() - 1);
-		assertThat(testConferenceRoomSchedule.getConferenceRoomId()).isEqualTo(DEFAULT_CONFERENCE_ROOM_ID);
 		assertThat(testConferenceRoomSchedule.getRequestorId()).isEqualTo(DEFAULT_REQUESTOR_ID);
 		assertThat(testConferenceRoomSchedule.getRoomScheduleStartTime()).isEqualTo(DEFAULT_ROOM_SCHEDULE_START_TIME);
 		assertThat(testConferenceRoomSchedule.getRoomScheduleEndTime()).isEqualTo(DEFAULT_ROOM_SCHEDULE_END_TIME);
@@ -209,7 +207,7 @@ public class ConferenceRoomScheduleResourceIntTest {
 		// Disconnect from session so that the updates on updatedConferenceRoomSchedule
 		// are not directly saved in db
 		em.detach(updatedConferenceRoomSchedule);
-		updatedConferenceRoomSchedule.conferenceRoomId(UPDATED_CONFERENCE_ROOM_ID).requestorId(UPDATED_REQUESTOR_ID)
+		updatedConferenceRoomSchedule.requestorId(UPDATED_REQUESTOR_ID)
 				.roomScheduleStartTime(UPDATED_ROOM_SCHEDULE_START_TIME)
 				.roomScheduleEndTime(UPDATED_ROOM_SCHEDULE_END_TIME);
 
@@ -223,7 +221,6 @@ public class ConferenceRoomScheduleResourceIntTest {
 		assertThat(conferenceRoomScheduleList).hasSize(databaseSizeBeforeUpdate);
 		ConferenceRoomSchedule testConferenceRoomSchedule = conferenceRoomScheduleList
 				.get(conferenceRoomScheduleList.size() - 1);
-		assertThat(testConferenceRoomSchedule.getConferenceRoomId()).isEqualTo(UPDATED_CONFERENCE_ROOM_ID);
 		assertThat(testConferenceRoomSchedule.getRequestorId()).isEqualTo(UPDATED_REQUESTOR_ID);
 		assertThat(testConferenceRoomSchedule.getRoomScheduleStartTime()).isEqualTo(UPDATED_ROOM_SCHEDULE_START_TIME);
 		assertThat(testConferenceRoomSchedule.getRoomScheduleEndTime()).isEqualTo(UPDATED_ROOM_SCHEDULE_END_TIME);

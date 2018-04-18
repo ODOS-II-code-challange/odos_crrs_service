@@ -70,9 +70,8 @@ public class ConferenceRoomServiceImpl implements ConferenceRoomService {
     @Transactional(readOnly = true)
     public ConferenceRoomDTO findOne(Long id) {
         log.debug("Request to get Conference Room : {}", id);
-        return null;
-//        Building building = buildingRepository.findOne(id);
-//        return buildingMapper.toDto(building);
+        ConferenceRoom conferenceRoom = conferenceRoomRepository.findOne(id);
+        return conferenceRoomMapper.toDto(conferenceRoom);
     }
 
     /**

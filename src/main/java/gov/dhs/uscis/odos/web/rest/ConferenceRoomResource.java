@@ -28,7 +28,7 @@ import gov.dhs.uscis.odos.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing Building.
+ * REST controller for managing Conference Room.
  */
 @RestController
 @RequestMapping("/api")
@@ -43,10 +43,10 @@ public class ConferenceRoomResource {
    
 
     /**
-     * POST  /conferenceroom : Create a new building.
+     * POST  /conferenceroom : Create a new conference room.
      *
      * @param ConferenceRoomDTO the ConferenceRoomDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new ConferenceRoomDTO, or with status 400 (Bad Request) if the building has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new ConferenceRoomDTO, or with status 400 (Bad Request) if the conference room has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/conferenceroom")
@@ -54,7 +54,7 @@ public class ConferenceRoomResource {
     public ResponseEntity<ConferenceRoomDTO> createConferenceRoom(@RequestBody ConferenceRoomDTO ConferenceRoomDTO) throws URISyntaxException {
         log.debug("REST request to save Conference Room : {}", ConferenceRoomDTO);
         if (ConferenceRoomDTO.getConferenceRoomId() != null) {
-            throw new BadRequestAlertException("A new building cannot already have an ID", ENTITY_NAME, "id exists");
+            throw new BadRequestAlertException("A new conference room cannot already have an ID", ENTITY_NAME, "id exists");
         }
         ConferenceRoomDTO result = conferenceRoomService.save(ConferenceRoomDTO);
         return ResponseEntity.created(new URI("/api/conferenceroom/" + result.getConferenceRoomId()))
@@ -73,7 +73,7 @@ public class ConferenceRoomResource {
      */
     @PutMapping("/conferenceroom")
     @Timed
-    public ResponseEntity<ConferenceRoomDTO> updateBuilding(@RequestBody ConferenceRoomDTO ConferenceRoomDTO) throws URISyntaxException {
+    public ResponseEntity<ConferenceRoomDTO> updateConferenceRoom(@RequestBody ConferenceRoomDTO ConferenceRoomDTO) throws URISyntaxException {
         log.debug("REST request to update Conference Room : {}", ConferenceRoomDTO);
         if (ConferenceRoomDTO.getConferenceRoomId() == null) {
             return createConferenceRoom(ConferenceRoomDTO);
@@ -111,7 +111,7 @@ public class ConferenceRoomResource {
     }
 
     /**
-     * DELETE  /conferenceroom/:id : delete the "id" building.
+     * DELETE  /conferenceroom/:id : delete the "id" conference room.
      *
      * @param id the id of the ConferenceRoomDTO to delete
      * @return the ResponseEntity with status 200 (OK)

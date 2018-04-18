@@ -24,9 +24,6 @@ public class ConferenceRoomSchedule implements Serializable {
 	@Column(name = "conf_sch_id")
 	private Long id;
 
-	@Column(name = "conf_rm_id")
-	private Long conferenceRoomId;
-
 	@Column(name = "req_id")
 	private Long requestorId;
 
@@ -52,19 +49,6 @@ public class ConferenceRoomSchedule implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getConferenceRoomId() {
-		return conferenceRoomId;
-	}
-
-	public void setConferenceRoomId(Long conferenceRoomId) {
-		this.conferenceRoomId = conferenceRoomId;
-	}
-
-	public ConferenceRoomSchedule conferenceRoomId(Long conferenceRoomId) {
-		this.conferenceRoomId = conferenceRoomId;
-		return this;
 	}
 
 	public Long getRequestorId() {
@@ -144,7 +128,7 @@ public class ConferenceRoomSchedule implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ConferenceRoomSchedule [id=" + id + ", conferenceRoomId=" + conferenceRoomId + ", requestorId="
+		return "ConferenceRoomSchedule [id=" + id + ", requestorId="
 				+ requestorId + ", roomScheduleStartTime=" + roomScheduleStartTime + ", roomScheduleEndTime="
 				+ roomScheduleEndTime + ", conferenceTitle=" + conferenceTitle + ", conferenceRoom=" + conferenceRoom
 				+ "]";

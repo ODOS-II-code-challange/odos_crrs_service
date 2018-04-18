@@ -47,7 +47,7 @@ public class ConferenceRoom implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private ActiveIndicatorEnum activeIndicator;
 
-	@ManyToOne(targetEntity = Building.class)
+	@ManyToOne(targetEntity = Building.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "bldg_id")
 	private Building building;
 	

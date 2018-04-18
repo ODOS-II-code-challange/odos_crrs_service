@@ -1,13 +1,22 @@
 package gov.dhs.uscis.odos.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A ConferenceRoomSchedule.
@@ -36,7 +45,7 @@ public class ConferenceRoomSchedule implements Serializable {
 	@Column(name = "conf_title")
 	private String conferenceTitle;
 
-	@ManyToOne(targetEntity = ConferenceRoom.class, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = ConferenceRoom.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "conf_rm_id")
 	private ConferenceRoom conferenceRoom;
 

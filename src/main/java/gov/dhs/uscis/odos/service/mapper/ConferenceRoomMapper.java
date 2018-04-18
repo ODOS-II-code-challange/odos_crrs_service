@@ -8,9 +8,7 @@ import javax.inject.Named;
 
 import org.dozer.Mapper;
 
-import gov.dhs.uscis.odos.domain.Building;
 import gov.dhs.uscis.odos.domain.ConferenceRoom;
-import gov.dhs.uscis.odos.repository.BuildingRepository;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomDTO;
 
 /**

@@ -11,7 +11,6 @@ import org.dozer.Mapper;
 import gov.dhs.uscis.odos.domain.Building;
 import gov.dhs.uscis.odos.service.ConferenceRoomService;
 import gov.dhs.uscis.odos.service.dto.BuildingDTO;
-import gov.dhs.uscis.odos.service.dto.ConferenceRoomDTO;
 
 /**
  * Mapper for the entity Building and its DTO BuildingDTO.

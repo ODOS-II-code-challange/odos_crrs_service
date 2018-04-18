@@ -5,12 +5,17 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 	<changeSet id="2018-04-16-wube-01" author="Wube">
 		<sql>
-			create table odos_crrs_svc.equip (
+			create table odos_crrs_svc.equip 
+			(
 			equip_id serial not null,
 			equip_name varchar(200) not null,
 			equip_desc text not null,
 			primary key (equip_id)
 			);
+			COMMENT ON TABLE odos_crrs_svc.equip IS 'Represents the equipment'; 
+			COMMENT ON COLUMN odos_crrs_svc.equip.quip_id IS 'Primary key of the equipment'; 
+			COMMENT ON COLUMN odos_crrs_svc.equip.equip_name IS 'Name of the equipment'; 
+			COMMENT ON COLUMN odos_crrs_svc.equip.equip_desc IS 'Description of the equipment'; 
 		</sql>
 	</changeSet>
 </databaseChangeLog>

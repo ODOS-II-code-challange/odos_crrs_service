@@ -1,8 +1,11 @@
 package gov.dhs.uscis.odos.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import gov.dhs.uscis.odos.domain.enums.ActiveIndicatorEnum;
@@ -23,31 +27,34 @@ import gov.dhs.uscis.odos.domain.enums.ActiveIndicatorEnum;
 @Table(name = "conf_rm")
 public class ConferenceRoom implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "conf_rm_id")
-    private Long conferenceRoomId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "conf_rm_id")
+	private Long conferenceRoomId;
 
-    @Column(name = "rm_num")
-    private String roomNum;
+	@Column(name = "rm_num")
+	private String roomNum;
 
-    @Column(name = "rm_name")
-    private String roomName;
-    
-    @Column(name = "rm_capcity")
-    private Integer roomCapacity;
-    
-    @Column(name = "rm_active_ind")
-    @Enumerated(EnumType.STRING)
-    private ActiveIndicatorEnum activeIndicator;
-    
-    @ManyToOne(targetEntity = Building.class)
-    @JoinColumn(name = "bldg_id")
-    private Building building;
-    
-    public Long getConferenceRoomId() {
+	@Column(name = "rm_name")
+	private String roomName;
+
+	@Column(name = "rm_capcity")
+	private Integer roomCapacity;
+
+	@Column(name = "rm_active_ind")
+	@Enumerated(EnumType.STRING)
+	private ActiveIndicatorEnum activeIndicator;
+
+	@ManyToOne(targetEntity = Building.class)
+	@JoinColumn(name = "bldg_id")
+	private Building building;
+	
+	@OneToMany(mappedBy = "conferenceRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ConferenceRoomSchedule> conferenceRoomSchedule = new ArrayList<>();
+
+	public Long getConferenceRoomId() {
 		return conferenceRoomId;
 	}
 
@@ -95,23 +102,31 @@ public class ConferenceRoom implements Serializable {
 		this.building = building;
 	}
 
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ConferenceRoom conferenceRoom = (ConferenceRoom) o;
-        if (conferenceRoom.getConferenceRoomId() == null || getConferenceRoomId() == null) {
-            return false;
-        }
-        return Objects.equals(getConferenceRoomId(), conferenceRoom.getConferenceRoomId());
-    }
+	public List<ConferenceRoomSchedule> getConferenceRoomSchedule() {
+		return conferenceRoomSchedule;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getConferenceRoomId());
-    }
+	public void setConferenceRoomSchedule(List<ConferenceRoomSchedule> conferenceRoomSchedule) {
+		this.conferenceRoomSchedule = conferenceRoomSchedule;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		ConferenceRoom conferenceRoom = (ConferenceRoom) o;
+		if (conferenceRoom.getConferenceRoomId() == null || getConferenceRoomId() == null) {
+			return false;
+		}
+		return Objects.equals(getConferenceRoomId(), conferenceRoom.getConferenceRoomId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getConferenceRoomId());
+	}
 }

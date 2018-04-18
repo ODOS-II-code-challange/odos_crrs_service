@@ -70,9 +70,8 @@ public class BuildingServiceImpl implements BuildingService {
     @Transactional(readOnly = true)
     public BuildingDTO findOne(Long id) {
         log.debug("Request to get Building : {}", id);
-        return null;
-//        Building building = buildingRepository.findOne(id);
-//        return buildingMapper.toDto(building);
+        Building building = buildingRepository.findOne(id);
+        return buildingMapper.toDto(building);
     }
 
     /**

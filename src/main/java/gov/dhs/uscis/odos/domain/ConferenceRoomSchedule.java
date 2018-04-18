@@ -36,7 +36,7 @@ public class ConferenceRoomSchedule implements Serializable {
 	@Column(name = "room_schedule_end_time")
 	private String conferenceTitle;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = ConferenceRoom.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "conf_rm_id")
 	private ConferenceRoom conferenceRoom;
 
@@ -128,10 +128,9 @@ public class ConferenceRoomSchedule implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ConferenceRoomSchedule [id=" + id + ", requestorId="
-				+ requestorId + ", roomScheduleStartTime=" + roomScheduleStartTime + ", roomScheduleEndTime="
-				+ roomScheduleEndTime + ", conferenceTitle=" + conferenceTitle + ", conferenceRoom=" + conferenceRoom
-				+ "]";
+		return "ConferenceRoomSchedule [id=" + id + ", requestorId=" + requestorId + ", roomScheduleStartTime="
+				+ roomScheduleStartTime + ", roomScheduleEndTime=" + roomScheduleEndTime + ", conferenceTitle="
+				+ conferenceTitle + ", conferenceRoom=" + conferenceRoom + "]";
 	}
 
 }

@@ -30,10 +30,10 @@ public class ConferenceRoomSchedule implements Serializable {
 	@Column(name = "start_dttm")
 	private LocalDate roomScheduleStartTime;
 
-	@Column(name = "end_dttm")
+	@Column(name = "endt_dttm")
 	private LocalDate roomScheduleEndTime;
 
-	@Column(name = "room_schedule_end_time")
+	@Column(name = "conf_title")
 	private String conferenceTitle;
 
 	@ManyToOne(targetEntity = ConferenceRoom.class, fetch = FetchType.LAZY)

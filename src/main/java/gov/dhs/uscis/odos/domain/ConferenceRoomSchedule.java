@@ -14,7 +14,7 @@ import java.util.Objects;
  * A ConferenceRoomSchedule.
  */
 @Entity
-@Table(name = "conference_room_schedule")
+@Table(name = "conf_sched")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class ConferenceRoomSchedule implements Serializable {
 

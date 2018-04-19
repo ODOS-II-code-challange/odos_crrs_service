@@ -64,7 +64,7 @@ task baseline << {
     runpsql('src/main/resources/config/liquibase/baseline/create_database.sql')
     runpsql('src/main/resources/config/liquibase/baseline/create_user_schema.sql', "${databaseName}")
 }
-task loaddata << {
+task loadData << {
     runpsql('src/main/resources/config/liquibase/loaddata/loaddata.sql', "${databaseName}")
     
 }

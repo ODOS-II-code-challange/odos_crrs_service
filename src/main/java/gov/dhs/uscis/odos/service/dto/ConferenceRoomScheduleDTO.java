@@ -1,66 +1,103 @@
 package gov.dhs.uscis.odos.service.dto;
 
+
+import java.time.LocalDate;
+import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
- * A DTO for the a ConferenceRoomSchedule entity
- *
+ * A DTO for the ConferenceRoomSchedule entity.
  */
 public class ConferenceRoomScheduleDTO implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -6440528019905191789L;
+	private static final long serialVersionUID = -737083741204310273L;
 
-	private String requestorId;
+	private Long id;
 
-	private String roomScheduleStartTime;
+    @NotNull
+    private String requestorId;
 
-	private String roomScheduleEndTime;
+    @NotNull
+    private LocalDate roomScheduleStartTime;
 
-	private String conferenceTitle;
+    @NotNull
+    private LocalDate roomScheduleEndTime;
 
-	private Long conferenceRoomId;
+    private String conferenceTitle;
 
-	public String getRequestorId() {
-		return requestorId;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setRequestorId(String requestorId) {
-		this.requestorId = requestorId;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getRoomScheduleStartTime() {
-		return roomScheduleStartTime;
-	}
+    public String getRequestorId() {
+        return requestorId;
+    }
 
-	public void setRoomScheduleStartTime(String roomScheduleStartTime) {
-		this.roomScheduleStartTime = roomScheduleStartTime;
-	}
+    public void setRequestorId(String requestorId) {
+        this.requestorId = requestorId;
+    }
 
-	public String getRoomScheduleEndTime() {
-		return roomScheduleEndTime;
-	}
+    public LocalDate getRoomScheduleStartTime() {
+        return roomScheduleStartTime;
+    }
 
-	public void setRoomScheduleEndTime(String roomScheduleEndTime) {
-		this.roomScheduleEndTime = roomScheduleEndTime;
-	}
+    public void setRoomScheduleStartTime(LocalDate roomScheduleStartTime) {
+        this.roomScheduleStartTime = roomScheduleStartTime;
+    }
 
-	public String getConferenceTitle() {
-		return conferenceTitle;
-	}
+    public LocalDate getRoomScheduleEndTime() {
+        return roomScheduleEndTime;
+    }
 
-	public void setConferenceTitle(String conferenceTitle) {
-		this.conferenceTitle = conferenceTitle;
-	}
+    public void setRoomScheduleEndTime(LocalDate roomScheduleEndTime) {
+        this.roomScheduleEndTime = roomScheduleEndTime;
+    }
 
-	public Long getConferenceRoomId() {
-		return conferenceRoomId;
-	}
+    public String getConferenceTitle() {
+        return conferenceTitle;
+    }
 
-	public void setConferenceRoomId(Long conferenceRoomId) {
-		this.conferenceRoomId = conferenceRoomId;
-	}
+    public void setConferenceTitle(String conferenceTitle) {
+        this.conferenceTitle = conferenceTitle;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ConferenceRoomScheduleDTO conferenceRoomScheduleDTO = (ConferenceRoomScheduleDTO) o;
+        if(conferenceRoomScheduleDTO.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), conferenceRoomScheduleDTO.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "ConferenceRoomScheduleDTO{" +
+            "id=" + getId() +
+            ", requestorId='" + getRequestorId() + "'" +
+            ", roomScheduleStartTime='" + getRoomScheduleStartTime() + "'" +
+            ", roomScheduleEndTime='" + getRoomScheduleEndTime() + "'" +
+            ", conferenceTitle='" + getConferenceTitle() + "'" +
+            "}";
+    }
 }

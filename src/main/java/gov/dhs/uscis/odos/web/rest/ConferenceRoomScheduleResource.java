@@ -40,13 +40,13 @@ public class ConferenceRoomScheduleResource {
     }
 
     /**
-     * POST  /conference-room-schedules : Create a new conferenceRoomSchedule.
+     * POST  /conference-room-schedule : Create a new conferenceRoomSchedule.
      *
      * @param conferenceRoomSchedule the conferenceRoomSchedule to create
      * @return the ResponseEntity with status 201 (Created) and with body the new conferenceRoomSchedule, or with status 400 (Bad Request) if the conferenceRoomSchedule has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/conference-room-schedules")
+    @PostMapping("/conference-room-schedule")
     @Timed
     public ResponseEntity<ConferenceRoomSchedule> createConferenceRoomSchedule(@RequestBody ConferenceRoomSchedule conferenceRoomSchedule) throws URISyntaxException {
         log.debug("REST request to save ConferenceRoomSchedule : {}", conferenceRoomSchedule);
@@ -60,7 +60,7 @@ public class ConferenceRoomScheduleResource {
     }
 
     /**
-     * PUT  /conference-room-schedules : Updates an existing conferenceRoomSchedule.
+     * PUT  /conference-room-schedule : Updates an existing conferenceRoomSchedule.
      *
      * @param conferenceRoomSchedule the conferenceRoomSchedule to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated conferenceRoomSchedule,
@@ -68,7 +68,7 @@ public class ConferenceRoomScheduleResource {
      * or with status 500 (Internal Server Error) if the conferenceRoomSchedule couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/conference-room-schedules")
+    @PutMapping("/conference-room-schedule")
     @Timed
     public ResponseEntity<ConferenceRoomSchedule> updateConferenceRoomSchedule(@RequestBody ConferenceRoomSchedule conferenceRoomSchedule) throws URISyntaxException {
         log.debug("REST request to update ConferenceRoomSchedule : {}", conferenceRoomSchedule);
@@ -82,12 +82,12 @@ public class ConferenceRoomScheduleResource {
     }
 
     /**
-     * GET  /conference-room-schedules : get all the conferenceRoomSchedules.
+     * GET  /conference-room-schedule : get all the conferenceRoomSchedules.
      *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of conferenceRoomSchedules in body
      */
-    @GetMapping("/conference-room-schedules")
+    @GetMapping("/conference-room-schedule")
     @Timed
     public ResponseEntity<List<ConferenceRoomSchedule>> getAllConferenceRoomSchedules(Pageable pageable) {
         log.debug("REST request to get a page of ConferenceRoomSchedules");
@@ -97,12 +97,12 @@ public class ConferenceRoomScheduleResource {
     }
 
     /**
-     * GET  /conference-room-schedules/:id : get the "id" conferenceRoomSchedule.
+     * GET  /conference-room-schedule/:id : get the "id" conferenceRoomSchedule.
      *
      * @param id the id of the conferenceRoomSchedule to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the conferenceRoomSchedule, or with status 404 (Not Found)
      */
-    @GetMapping("/conference-room-schedules/{id}")
+    @GetMapping("/conference-room-schedule/{id}")
     @Timed
     public ResponseEntity<ConferenceRoomSchedule> getConferenceRoomSchedule(@PathVariable Long id) {
         log.debug("REST request to get ConferenceRoomSchedule : {}", id);
@@ -111,12 +111,12 @@ public class ConferenceRoomScheduleResource {
     }
 
     /**
-     * DELETE  /conference-room-schedules/:id : delete the "id" conferenceRoomSchedule.
+     * DELETE  /conference-room-schedule/:id : delete the "id" conferenceRoomSchedule.
      *
      * @param id the id of the conferenceRoomSchedule to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/conference-room-schedules/{id}")
+    @DeleteMapping("/conference-room-schedule/{id}")
     @Timed
     public ResponseEntity<Void> deleteConferenceRoomSchedule(@PathVariable Long id) {
         log.debug("REST request to delete ConferenceRoomSchedule : {}", id);

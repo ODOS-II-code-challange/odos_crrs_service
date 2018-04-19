@@ -6,11 +6,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.Validate;
 import org.dozer.Mapper;
 
 import gov.dhs.uscis.odos.domain.Building;
-import gov.dhs.uscis.odos.service.ConferenceRoomService;
+import gov.dhs.uscis.odos.domain.ConferenceRoom;
 import gov.dhs.uscis.odos.service.dto.BuildingDTO;
+import gov.dhs.uscis.odos.service.dto.ConferenceRoomDTO;
 
 /**
  * Mapper for the entity Building and its DTO BuildingDTO.
@@ -20,9 +22,6 @@ public class BuildingMapper implements EntityMapper<BuildingDTO, Building> {
 
 	@Inject
 	private Mapper mapper;
-	
-	@Inject
-	private ConferenceRoomService conferenceRoomService;
 
 	@Override
 	public Building toEntity(BuildingDTO dto) {
@@ -31,9 +30,14 @@ public class BuildingMapper implements EntityMapper<BuildingDTO, Building> {
 
 	@Override
 	public BuildingDTO toDto(Building entity) {
-		if (entity == null) return null;
+		List<ConferenceRoomDTO> confDtos = new ArrayList<>();
+		Validate.notNull(entity, "The Building entity must not be null");
 		BuildingDTO buildingDTO = mapper.map(entity, BuildingDTO.class);
-		buildingDTO.setConferenceRooms(conferenceRoomService.findAll());
+		for (ConferenceRoom conferenceRoom : entity.getConferenceRoom()) {
+			confDtos.add(mapper.map(conferenceRoom, ConferenceRoomDTO.class));
+		}
+		buildingDTO.setConferenceRooms(confDtos);
+
 		return buildingDTO;
 	}
 

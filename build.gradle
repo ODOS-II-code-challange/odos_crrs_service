@@ -110,6 +110,7 @@ task testReport(type: TestReport) {
 
 tasks.withType(Test) {
 	environment "databaseAppPassword", "${databaseAppPassword}"
+	environment "databaseHost", "${databaseHost}"
 }
 
 apply from: 'gradle/docker.gradle'

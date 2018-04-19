@@ -1,21 +1,14 @@
 package gov.dhs.uscis.odos.domain;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A ConferenceRoomSchedule.
@@ -25,88 +18,96 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class ConferenceRoomSchedule implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
+    @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "conf_sch_id")
-	private Long id;
+    private Long id;
 
-	@Column(name = "req_id")
-	private String requestorId;
+    @NotNull
+    @Column(name = "requestor_id", nullable = false)
+    private String requestorId;
 
-	@Column(name = "start_dttm")
-	private LocalDate roomScheduleStartTime;
+    @NotNull
+    @Column(name = "room_schedule_start_time", nullable = false)
+    private LocalDate roomScheduleStartTime;
 
-	@Column(name = "end_dttm")
-	private LocalDate roomScheduleEndTime;
+    @NotNull
+    @Column(name = "room_schedule_end_time", nullable = false)
+    private LocalDate roomScheduleEndTime;
 
-	@Column(name = "conf_title")
-	private String conferenceTitle;
-
-	@ManyToOne(targetEntity = ConferenceRoom.class,cascade = CascadeType.ALL)
+    @Column(name = "conference_title")
+    private String conferenceTitle;
+    
+    @ManyToOne(targetEntity = ConferenceRoom.class,cascade = CascadeType.ALL)
 	@JoinColumn(name = "conf_rm_id")
 	private ConferenceRoom conferenceRoom;
 
-	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
-	// setters here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    public Long getId() {
+        return id;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public String getRequestorId() {
+        return requestorId;
+    }
 
-	public String getRequestorId() {
-		return requestorId;
-	}
+    public ConferenceRoomSchedule requestorId(String requestorId) {
+        this.requestorId = requestorId;
+        return this;
+    }
 
-	public void setRequestorId(String requestorId) {
-		this.requestorId = requestorId;
-	}
+    public void setRequestorId(String requestorId) {
+        this.requestorId = requestorId;
+    }
 
-	public ConferenceRoomSchedule requestorId(String requestorId) {
-		this.requestorId = requestorId;
-		return this;
-	}
+    public LocalDate getRoomScheduleStartTime() {
+        return roomScheduleStartTime;
+    }
 
-	public LocalDate getRoomScheduleStartTime() {
-		return roomScheduleStartTime;
-	}
+    public ConferenceRoomSchedule roomScheduleStartTime(LocalDate roomScheduleStartTime) {
+        this.roomScheduleStartTime = roomScheduleStartTime;
+        return this;
+    }
 
-	public ConferenceRoomSchedule roomScheduleStartTime(LocalDate roomScheduleStartTime) {
-		this.roomScheduleStartTime = roomScheduleStartTime;
-		return this;
-	}
+    public void setRoomScheduleStartTime(LocalDate roomScheduleStartTime) {
+        this.roomScheduleStartTime = roomScheduleStartTime;
+    }
 
-	public void setRoomScheduleStartTime(LocalDate roomScheduleStartTime) {
-		this.roomScheduleStartTime = roomScheduleStartTime;
-	}
+    public LocalDate getRoomScheduleEndTime() {
+        return roomScheduleEndTime;
+    }
 
-	public LocalDate getRoomScheduleEndTime() {
-		return roomScheduleEndTime;
-	}
+    public ConferenceRoomSchedule roomScheduleEndTime(LocalDate roomScheduleEndTime) {
+        this.roomScheduleEndTime = roomScheduleEndTime;
+        return this;
+    }
 
-	public void setRoomScheduleEndTime(LocalDate roomScheduleEndTime) {
-		this.roomScheduleEndTime = roomScheduleEndTime;
-	}
+    public void setRoomScheduleEndTime(LocalDate roomScheduleEndTime) {
+        this.roomScheduleEndTime = roomScheduleEndTime;
+    }
 
-	public ConferenceRoomSchedule roomScheduleEndTime(LocalDate roomScheduleEndTime) {
-		this.roomScheduleEndTime = roomScheduleEndTime;
-		return this;
-	}
+    public String getConferenceTitle() {
+        return conferenceTitle;
+    }
 
-	public String getConferenceTitle() {
-		return conferenceTitle;
-	}
+    public ConferenceRoomSchedule conferenceTitle(String conferenceTitle) {
+        this.conferenceTitle = conferenceTitle;
+        return this;
+    }
 
-	public void setConferenceTitle(String conferenceTitle) {
-		this.conferenceTitle = conferenceTitle;
-	}
+    public void setConferenceTitle(String conferenceTitle) {
+        this.conferenceTitle = conferenceTitle;
+    }
+    
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-	public ConferenceRoom getConferenceRoom() {
+    public ConferenceRoom getConferenceRoom() {
 		return conferenceRoom;
 	}
 
@@ -115,30 +116,33 @@ public class ConferenceRoomSchedule implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		ConferenceRoomSchedule conferenceRoomSchedule = (ConferenceRoomSchedule) o;
-		if (conferenceRoomSchedule.getId() == null || getId() == null) {
-			return false;
-		}
-		return Objects.equals(getId(), conferenceRoomSchedule.getId());
-	}
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ConferenceRoomSchedule conferenceRoomSchedule = (ConferenceRoomSchedule) o;
+        if (conferenceRoomSchedule.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), conferenceRoomSchedule.getId());
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(getId());
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
 
-	@Override
-	public String toString() {
-		return "ConferenceRoomSchedule [id=" + id + ", requestorId=" + requestorId + ", roomScheduleStartTime="
-				+ roomScheduleStartTime + ", roomScheduleEndTime=" + roomScheduleEndTime + ", conferenceTitle="
-				+ conferenceTitle + ", conferenceRoom=" + conferenceRoom + "]";
-	}
-
+    @Override
+    public String toString() {
+        return "ConferenceRoomSchedule{" +
+            "id=" + getId() +
+            ", requestorId='" + getRequestorId() + "'" +
+            ", roomScheduleStartTime='" + getRoomScheduleStartTime() + "'" +
+            ", roomScheduleEndTime='" + getRoomScheduleEndTime() + "'" +
+            ", conferenceTitle='" + getConferenceTitle() + "'" +
+            "}";
+    }
 }

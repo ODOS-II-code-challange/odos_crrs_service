@@ -69,6 +69,12 @@ task loadData << {
     
 }
 
+task baselineTest << {
+    runpsql('src/main/resources/config/liquibase/baseline/drop_schema.sql', "${databaseName}")
+    runpsql('src/main/resources/config/liquibase/baseline/drop_user.sql', "${databaseName}")
+    runpsql('src/main/resources/config/liquibase/baseline/create_user_schema.sql', "${databaseName}")
+}
+
 if (OperatingSystem.current().isWindows()) {
     task pathingLiquibaseJar(type: Jar) {
         dependsOn configurations.liquibase

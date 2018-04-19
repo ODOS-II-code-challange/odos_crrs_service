@@ -64,6 +64,10 @@ task baseline << {
     runpsql('src/main/resources/config/liquibase/baseline/create_database.sql')
     runpsql('src/main/resources/config/liquibase/baseline/create_user_schema.sql', "${databaseName}")
 }
+task loaddata << {
+    runpsql('src/main/resources/config/liquibase/loaddata/loaddata.sql', "${databaseName}")
+    
+}
 
 if (OperatingSystem.current().isWindows()) {
     task pathingLiquibaseJar(type: Jar) {

@@ -46,13 +46,8 @@ import gov.dhs.uscis.odos.web.rest.errors.ExceptionTranslator;
 
 public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
 
-	private static final Long DEFAULT_CONFERENCE_ROOM_SCHEDULE_ID = 1L;
-
-	private static final Long DEFAULT_CONFERENCE_ROOM_ID = 1L;
-	private static final Long UPDATED_CONFERENCE_ROOM_ID = 2L;
-
-	private static final Long DEFAULT_REQUESTOR_ID = 1L;
-	private static final Long UPDATED_REQUESTOR_ID = 2L;
+	private static final String DEFAULT_REQUESTOR_ID = "John";
+	private static final String UPDATED_REQUESTOR_ID = "Wube";
 
 	private static final LocalDate DEFAULT_ROOM_SCHEDULE_START_TIME = LocalDate.ofEpochDay(0L);
 	private static final LocalDate UPDATED_ROOM_SCHEDULE_START_TIME = LocalDate.now(ZoneId.systemDefault());
@@ -62,12 +57,6 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
 
 	@Autowired
 	private ConferenceRoomScheduleRepository conferenceRoomScheduleRepository;
-	
-	@Autowired
-	private BuildingRepository buildingRepository;
-	
-	@Autowired
-	private ConferenceRoomRepository conferenceRoomSRepository;
 
 	@Autowired
 	private ConferenceRoomScheduleService conferenceRoomScheduleService;
@@ -183,7 +172,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
 		restConferenceRoomScheduleMockMvc.perform(get("/api/conference-room-schedules?sort=id,desc"))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.[*].id").value(hasItem(updated.getId().intValue())))
-				.andExpect(jsonPath("$.[*].requestorId").value(hasItem(DEFAULT_REQUESTOR_ID.intValue())))
+				.andExpect(jsonPath("$.[*].requestorId").value(hasItem(DEFAULT_REQUESTOR_ID.toString())))
 				.andExpect(jsonPath("$.[*].roomScheduleStartTime").value(hasItem(DEFAULT_ROOM_SCHEDULE_START_TIME.toString())))
 				.andExpect(jsonPath("$.[*].roomScheduleEndTime").value(hasItem(DEFAULT_ROOM_SCHEDULE_END_TIME.toString())));
 	}
@@ -200,7 +189,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.id").value(updated.getId().intValue()))
 				.andExpect(jsonPath("$.conferenceRoom.conferenceRoomId").value(updated.getConferenceRoom().getConferenceRoomId().longValue()))
-				.andExpect(jsonPath("$.requestorId").value(DEFAULT_REQUESTOR_ID.intValue()))
+				.andExpect(jsonPath("$.requestorId").value(DEFAULT_REQUESTOR_ID.toString()))
 				.andExpect(jsonPath("$.roomScheduleStartTime").value(DEFAULT_ROOM_SCHEDULE_START_TIME.toString()))
 				.andExpect(jsonPath("$.roomScheduleEndTime").value(DEFAULT_ROOM_SCHEDULE_END_TIME.toString()));
 	}

@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +53,7 @@ public class EquipmentResource {
      */
     @PostMapping("/equipment")
     @Timed
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<EquipmentDTO> createEquipment(@RequestBody EquipmentDTO equipmentDTO) throws URISyntaxException {
         log.debug("REST request to save Equipment : {}", equipmentDTO);
         if (equipmentDTO.getEquipmentId() != null) {
@@ -74,6 +76,7 @@ public class EquipmentResource {
      */
     @PutMapping("/equipment")
     @Timed
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<EquipmentDTO> updateEquipment(@RequestBody EquipmentDTO equipmentDTO) throws URISyntaxException {
         log.debug("REST request to update Equipment : {}", equipmentDTO);
         if (equipmentDTO.getEquipmentId() == null) {
@@ -92,6 +95,7 @@ public class EquipmentResource {
      */
     @GetMapping("/equipment")
     @Timed
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')") 
     public List<EquipmentDTO> getAllEquipments() {
         log.debug("REST request to get all Equipments");
         return equipmentService.findAll();
@@ -105,6 +109,7 @@ public class EquipmentResource {
      */
     @GetMapping("/equipment/{id}")
     @Timed
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')") 
     public ResponseEntity<EquipmentDTO> getEquipment(@PathVariable Long id) {
         log.debug("REST request to get Equipment : {}", id);
         EquipmentDTO equipmentDTO = equipmentService.findOne(id);
@@ -119,6 +124,7 @@ public class EquipmentResource {
      */
     @DeleteMapping("/equipment/{id}")
     @Timed
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteEquipment(@PathVariable Long id) {
         log.debug("REST request to delete Equipment : {}", id);
         equipmentService.delete(id);

@@ -9,6 +9,7 @@ buildscript {
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
+        classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:1.0.2.RELEASE"
         classpath "io.spring.gradle:propdeps-plugin:0.0.9.RELEASE"
         classpath "gradle.plugin.org.detoeuf:swagger-codegen-plugin:1.7.4"
         classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17"
@@ -38,6 +39,7 @@ apply plugin: 'war'
 apply plugin: 'propdeps'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'idea'
+apply plugin: 'spring-cloud-contract'
 
 dependencyManagement {
   imports {
@@ -226,6 +228,7 @@ dependencies {
     testCompile "com.mattbertolini:liquibase-slf4j"
     testCompile "org.hamcrest:hamcrest-library"
     testCompile "com.h2database:h2"
+    testCompile "org.springframework.cloud:spring-cloud-starter-contract-verifier:1.0.2.RELEASE"
     optional ("org.springframework.boot:spring-boot-configuration-processor") {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
@@ -233,6 +236,21 @@ dependencies {
     
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
+
+
+contracts {
+	contractsDslDir = file("src/test/groovy")
+	baseClassForTests = 'gov.dhs.uscis.odos.contract.OdosApplicationContractTest'
+	stubsOutputDir = file("$buildDir/stubs")
+}
+
+task stubsJar(type: Jar, dependsOn: "generateWireMockClientStubs") {
+	baseName = "${project.name}"
+	classifier = "stubs"
+	from file("$buildDir/stubs")
+}
+
+tasks.test.dependsOn generateContractTests
 
 task cleanResources(type: Delete) {
     delete 'build/resources'

@@ -3,6 +3,10 @@ def Common = new odos.jenkins.Common()
 
 def GIT_URL=scm.getUserRemoteConfigs()[0].getUrl()
 
+
+def CDC_GIT_BASE = "master"
+def CDC_GIT_BRANCH = "CI_Master"
+
 pipeline {
     agent any
 
@@ -35,6 +39,13 @@ pipeline {
 		      }
 		    }
 		}
+        stage('CDC') {
+            steps {
+                script{
+                  Common.runCDCTests(CDC_GIT_BRANCH)
+                }
+            }
+        }
         stage('Sonar Scan') {
           steps {
             script{

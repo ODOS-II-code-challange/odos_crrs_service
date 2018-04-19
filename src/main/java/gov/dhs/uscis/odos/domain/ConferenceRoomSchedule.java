@@ -26,18 +26,18 @@ public class ConferenceRoomSchedule implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "requestor_id", nullable = false)
+    @Column(name = "req_id", nullable = false)
     private String requestorId;
 
     @NotNull
-    @Column(name = "room_schedule_start_time", nullable = false)
+    @Column(name = "start_dttm", nullable = false)
     private LocalDate roomScheduleStartTime;
 
     @NotNull
-    @Column(name = "room_schedule_end_time", nullable = false)
+    @Column(name = "end_dttm", nullable = false)
     private LocalDate roomScheduleEndTime;
 
-    @Column(name = "conference_title")
+    @Column(name = "conf_title")
     private String conferenceTitle;
     
     @ManyToOne(targetEntity = ConferenceRoom.class,cascade = CascadeType.ALL)

@@ -6,7 +6,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -43,13 +49,12 @@ public class ConferenceRoomResourceTest {
 	@Before
 	public void setup() {
 		this.restBuildingMockMvc = MockMvcBuilders.standaloneSetup(conferenceRoomResource).build();
-		restBuildingMockMvc = MockMvcBuilders.standaloneSetup(conferenceRoomResource).build();
 		ReflectionTestUtils.setField(conferenceRoomResource, "conferenceRoomService", conferenceRoomService);
 	}
 
 	@Test
 	public void createBuilding_ShouldReturnHttpStatus201() throws Exception {
-		ConferenceRoomDTO conferenceRoomDto = new ConferenceRoomDTO();
+		ConferenceRoomDTO conferenceRoomDto = createConfRoomDTO(null, "test", "123");
 		ConferenceRoomDTO conferenceRoomDtoResult = new ConferenceRoomDTO();
 		conferenceRoomDtoResult.setConferenceRoomId(1L);
 		when(conferenceRoomService.save(any(ConferenceRoomDTO.class))).thenReturn(conferenceRoomDtoResult);
@@ -74,4 +79,85 @@ public class ConferenceRoomResourceTest {
 		restBuildingMockMvc.perform(post("/api/conferenceroom").contentType(MediaType.APPLICATION_JSON)
 				.content(TestUtil.convertObjectToJsonBytes(conferenceRoomDTO))).andExpect(status().isCreated());
 	}
+	
+	@Test
+	public void shouldUpdateConferenceRoomWithExistingID() throws Exception {
+		ConferenceRoomDTO conferenceRoomDto = createConfRoomDTO(1L, "test", "123");
+		
+		when(conferenceRoomService.save(any(ConferenceRoomDTO.class))).thenReturn(conferenceRoomDto);
+		restBuildingMockMvc.perform(put("/api/conferenceroom").contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.convertObjectToJsonBytes(conferenceRoomDto))).andExpect(status().isOk());
+
+		ArgumentCaptor<ConferenceRoomDTO> dataCaptor = ArgumentCaptor.forClass(ConferenceRoomDTO.class);
+
+		verify(conferenceRoomService, times(1)).save(dataCaptor.capture());
+		verifyNoMoreInteractions(conferenceRoomService);
+	}
+	
+	@Test
+	public void shouldUpdateConferenceRoomWithNewID() throws Exception {
+		ConferenceRoomDTO conferenceRoomDto = createConfRoomDTO(null, "test", "123");
+		
+		ConferenceRoomDTO conferenceRoomDtoResult = new ConferenceRoomDTO();
+		conferenceRoomDtoResult.setConferenceRoomId(1L);
+		
+		when(conferenceRoomService.save(any(ConferenceRoomDTO.class))).thenReturn(conferenceRoomDtoResult);
+		restBuildingMockMvc.perform(put("/api/conferenceroom").contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.convertObjectToJsonBytes(conferenceRoomDto))).andExpect(status().isCreated());
+
+		ArgumentCaptor<ConferenceRoomDTO> dataCaptor = ArgumentCaptor.forClass(ConferenceRoomDTO.class);
+
+		verify(conferenceRoomService, times(1)).save(dataCaptor.capture());
+		verifyNoMoreInteractions(conferenceRoomService);
+	}
+	
+	@Test
+	public void shouldRetrieveAllConferenceRooms() throws Exception {
+		List<ConferenceRoomDTO> list = new ArrayList<ConferenceRoomDTO>();
+		list.add(createConfRoomDTO(1L, "test", "123"));
+		
+		when(conferenceRoomService.findAll()).thenReturn(list);
+		restBuildingMockMvc.perform(get("/api/conferenceroom").contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.convertObjectToJsonBytes(list))).andExpect(status().isOk());
+
+		verify(conferenceRoomService, times(1)).findAll();
+		verifyNoMoreInteractions(conferenceRoomService);
+	}
+	
+	@Test
+	public void shouldRetrieveConferenceRoomByID() throws Exception {
+		ConferenceRoomDTO conferenceRoomDTO = createConfRoomDTO(1L, "test", "123");
+		
+		when(conferenceRoomService.findOne(1L)).thenReturn(conferenceRoomDTO);
+		restBuildingMockMvc.perform(get("/api/conferenceroom/1").contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.convertObjectToJsonBytes(conferenceRoomDTO))).andExpect(status().isOk());
+
+		ArgumentCaptor<Long> dataCaptor = ArgumentCaptor.forClass(Long.class);
+		
+		verify(conferenceRoomService, times(1)).findOne(dataCaptor.capture());
+		verifyNoMoreInteractions(conferenceRoomService);
+	}
+	
+	@Test
+	public void shouldDeleteConferenceRoomByID() throws Exception {
+		ConferenceRoomDTO conferenceRoomDTO = createConfRoomDTO(1L, "test", "123");
+		
+		restBuildingMockMvc.perform(delete("/api/conferenceroom/1").contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.convertObjectToJsonBytes(conferenceRoomDTO))).andExpect(status().isOk());
+
+		ArgumentCaptor<Long> dataCaptor = ArgumentCaptor.forClass(Long.class);
+		
+		verify(conferenceRoomService, times(1)).delete(dataCaptor.capture());
+		verifyNoMoreInteractions(conferenceRoomService);
+	}
+	
+	private ConferenceRoomDTO createConfRoomDTO(Long id, String name, String num) {
+		ConferenceRoomDTO conferenceRoomDto = new ConferenceRoomDTO();
+		conferenceRoomDto.setRoomName(name);
+		conferenceRoomDto.setRoomNum(num);
+		conferenceRoomDto.setConferenceRoomId(id);
+		
+		return conferenceRoomDto;
+	}
+	 
 }

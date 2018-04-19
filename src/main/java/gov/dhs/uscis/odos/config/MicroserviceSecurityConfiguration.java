@@ -60,7 +60,7 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
-            .antMatchers(HttpMethod.GET,"/api/buildings","/api/conferenceroom").anonymous()
+            .antMatchers(HttpMethod.GET,"/api/buildings","/api/conferenceroom/**").anonymous()
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)

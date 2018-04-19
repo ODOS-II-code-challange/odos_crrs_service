@@ -33,7 +33,7 @@ public class ConferenceRoomSchedule implements Serializable {
 	private Long id;
 
 	@Column(name = "req_id")
-	private Long requestorId;
+	private String requestorId;
 
 	@Column(name = "start_dttm")
 	private LocalDate roomScheduleStartTime;
@@ -59,15 +59,15 @@ public class ConferenceRoomSchedule implements Serializable {
 		this.id = id;
 	}
 
-	public Long getRequestorId() {
+	public String getRequestorId() {
 		return requestorId;
 	}
 
-	public void setRequestorId(Long requestorId) {
+	public void setRequestorId(String requestorId) {
 		this.requestorId = requestorId;
 	}
 
-	public ConferenceRoomSchedule requestorId(Long requestorId) {
+	public ConferenceRoomSchedule requestorId(String requestorId) {
 		this.requestorId = requestorId;
 		return this;
 	}

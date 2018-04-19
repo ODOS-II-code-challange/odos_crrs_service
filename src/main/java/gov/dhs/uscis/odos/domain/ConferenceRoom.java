@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 import gov.dhs.uscis.odos.domain.enums.ActiveIndicatorEnum;
 
 /**
- * A Building.
+ * A ConferenceRoom.
  */
 @Entity
 @Table(name = "conf_rm")
@@ -51,7 +52,7 @@ public class ConferenceRoom implements Serializable {
 	@JoinColumn(name = "bldg_id")
 	private Building building;
 	
-	@OneToMany(mappedBy = "conferenceRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "conferenceRoom", fetch = FetchType.LAZY ,cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ConferenceRoomSchedule> conferenceRoomSchedule = new ArrayList<>();
 
 	public Long getConferenceRoomId() {

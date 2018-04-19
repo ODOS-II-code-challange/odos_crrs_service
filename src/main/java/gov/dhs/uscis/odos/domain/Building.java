@@ -6,6 +6,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -28,6 +30,9 @@ public class Building implements Serializable {
 
     @Column(name = "bldg_dsc")
     private String buildingDesc;
+    
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY ,cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ConferenceRoom> ConferenceRoom = new ArrayList<>();
 
     public Long getBuildingId() {
         return buildingId;
@@ -67,9 +72,18 @@ public class Building implements Serializable {
     public void setBuildingDesc(String buildingDesc) {
         this.buildingDesc = buildingDesc;
     }
+    
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-    @Override
+    public List<ConferenceRoom> getConferenceRoom() {
+		return ConferenceRoom;
+	}
+
+	public void setConferenceRoom(List<ConferenceRoom> conferenceRoom) {
+		ConferenceRoom = conferenceRoom;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

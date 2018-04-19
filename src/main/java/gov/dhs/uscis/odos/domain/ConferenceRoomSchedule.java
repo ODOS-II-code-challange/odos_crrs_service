@@ -22,7 +22,7 @@ public class ConferenceRoomSchedule implements Serializable {
 
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "conf_rm_id")
+	@Column(name = "conf_sch_id")
     private Long id;
 
     @NotNull

@@ -1,7 +1,7 @@
 package gov.dhs.uscis.odos.web.rest;
 
 import gov.dhs.uscis.odos.CrrsvcApp;
-
+import gov.dhs.uscis.odos.base.test.BaseIntegrationTest;
 import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
 import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
 import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
@@ -39,9 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @see ConferenceRoomScheduleResource
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = CrrsvcApp.class)
-public class ConferenceRoomScheduleResourceIntTest {
+public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
 
     private static final String DEFAULT_REQUESTOR_ID = "AAAAAAAAAA";
     private static final String UPDATED_REQUESTOR_ID = "BBBBBBBBBB";

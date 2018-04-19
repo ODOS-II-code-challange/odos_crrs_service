@@ -6,7 +6,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.lang3.Validate;
 import org.dozer.Mapper;
 
 import gov.dhs.uscis.odos.domain.Building;
@@ -30,8 +29,8 @@ public class BuildingMapper implements EntityMapper<BuildingDTO, Building> {
 
 	@Override
 	public BuildingDTO toDto(Building entity) {
+		if (entity == null) return null;
 		List<ConferenceRoomDTO> confDtos = new ArrayList<>();
-		Validate.notNull(entity, "The Building entity must not be null");
 		BuildingDTO buildingDTO = mapper.map(entity, BuildingDTO.class);
 		for (ConferenceRoom conferenceRoom : entity.getConferenceRoom()) {
 			confDtos.add(mapper.map(conferenceRoom, ConferenceRoomDTO.class));

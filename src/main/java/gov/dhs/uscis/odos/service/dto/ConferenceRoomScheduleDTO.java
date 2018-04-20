@@ -17,6 +17,9 @@ public class ConferenceRoomScheduleDTO implements Serializable {
 	private static final long serialVersionUID = -737083741204310273L;
 
 	private Long id;
+	
+	@NotNull
+	private Long conferenceRoomId;
 
     @NotNull
     private String requestorId;
@@ -37,7 +40,15 @@ public class ConferenceRoomScheduleDTO implements Serializable {
         this.id = id;
     }
 
-    public String getRequestorId() {
+    public Long getConferenceRoomId() {
+		return conferenceRoomId;
+	}
+
+	public void setConferenceRoomId(Long conferenceRoomId) {
+		this.conferenceRoomId = conferenceRoomId;
+	}
+
+	public String getRequestorId() {
         return requestorId;
     }
 

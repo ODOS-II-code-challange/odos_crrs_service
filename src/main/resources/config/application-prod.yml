@@ -20,6 +20,7 @@ logging:
         io.github.jhipster: INFO
 
 eureka:
+    active: false
     instance:
         prefer-ip-address: true
     client:

@@ -7,7 +7,7 @@ pipeline {
 
     stages {
              
-        stage('Test') {
+        stage('Build') {
             steps {
                 script{
                   Common.slack 'Building...'
@@ -20,6 +20,11 @@ pipeline {
           steps {
             script{
               Common.slack 'Sonar Scan for build request...'
+              
+               withCredentials([usernamePassword(credentialsId: 'TEST_DB_USER_PASS', passwordVariable: 'TEST_DB_PASS', usernameVariable: 'TEST_DB_USER')]) {
+			      sh """
+			      ./gradlew baselineTest liquibaseUpdate -PdatabaseHost=${TEST_DB_HOST} -PdatabaseAdmin=${TEST_DB_USER} -PdatabasePassword=${TEST_DB_PASS}
+		      """
               Common.sonarScan()
             
              withCredentials([usernamePassword(credentialsId: 'sonar-jenkins', passwordVariable: 'SONAR_PASSWORD', usernameVariable: '')]) {

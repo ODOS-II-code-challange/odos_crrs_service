@@ -41,13 +41,19 @@ pipeline {
                
             }
           }
-          withEnv(["GIT_URL=${GIT_URL}"]){
-            currentBuild.result = 'SUCCESS'
-            step([$class: 'CompareCoverageAction'])
-            
-         }
-        }
         
+        }
+         stage('Code Coverage') {
+            steps {
+                script{
+                   withEnv(["GIT_URL=${GIT_URL}"]){
+                        currentBuild.result = 'SUCCESS'
+                        step([$class: 'CompareCoverageAction'])
+                        
+                    }
+                }
+            }
+        }
 
     }
 }

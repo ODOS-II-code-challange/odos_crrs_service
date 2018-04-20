@@ -33,7 +33,7 @@ pipeline {
                         -Dsonar.github.login=odos-jenkins \
                         -Dsonar.github.oauth=c1d702b375ef96065d3e4fa6996681033fbbf1e2 \
                         -Dsonar.login=jenkins \
-                        -Dsonar.password=$SONAR_PASSWORD
+                        -Dsonar.password=$SONAR_PASSWORD \
                         -x test sonarqube
                     """
    

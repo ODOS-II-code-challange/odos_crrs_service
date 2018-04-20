@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,7 +26,7 @@ public class ConferenceRoomEquipment implements Serializable {
     @Column(name = "conf_rm_equip_id")
     private Long conferenceRoomEquipId;
 
-    @OneToOne(targetEntity = ConferenceRoom.class)
+    @ManyToOne(targetEntity = ConferenceRoom.class)
     @JoinColumn(name = "conf_rm_id")
     private ConferenceRoom conferenceRoom;
 

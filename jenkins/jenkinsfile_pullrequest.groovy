@@ -20,6 +20,7 @@ pipeline {
           steps {
             script{
               Common.slack 'Sonar Scan for build request...'
+              Common.sonarScan()
             
              withCredentials([usernamePassword(credentialsId: 'sonar-jenkins', passwordVariable: 'SONAR_PASSWORD', usernameVariable: '')]) {
                   sh """

@@ -16,7 +16,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import gov.dhs.uscis.odos.domain.ConferenceRoom;
 import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
+import gov.dhs.uscis.odos.repository.ConferenceRoomRepository;
 import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomScheduleDTO;
 import gov.dhs.uscis.odos.service.mapper.ConferenceRoomScheduleMapper;
@@ -29,11 +31,16 @@ public class ConferenceRoomScheduleServiceImplTest {
 	@Mock
     private ConferenceRoomScheduleRepository conferenceRoomScheduleRepository;
 	@Mock
+    private ConferenceRoomRepository conferenceRoomRepository;
+	@Mock
     private  ConferenceRoomScheduleMapper conferenceRoomScheduleMapper;
 	private List<ConferenceRoomSchedule> confRoomShecduleList;
 	private ConferenceRoomScheduleDTO conferenceRoomScheduleDTO;
 	
 	private ConferenceRoomSchedule conferenceRoomSchedule;
+	
+	private ConferenceRoom confRoom;
+	
 	@Mock
 	Page<ConferenceRoomSchedule>  pageConfRoomSchedule;
 	@Mock
@@ -45,7 +52,9 @@ public class ConferenceRoomScheduleServiceImplTest {
 	public void setup() {
 		conferenceRoomScheduleDTO = new ConferenceRoomScheduleDTO();
 		conferenceRoomScheduleDTO.setConferenceTitle("ODOS TEST");
+		conferenceRoomScheduleDTO.setConferenceRoomId(1L);
 		conferenceRoomSchedule = new ConferenceRoomSchedule();
+		confRoom = new ConferenceRoom();
 		confRoomShecduleList = new ArrayList<>();
 		confRoomShecduleList.add(conferenceRoomSchedule);
 	
@@ -54,16 +63,9 @@ public class ConferenceRoomScheduleServiceImplTest {
 		Mockito.when(conferenceRoomScheduleMapper.toDto(conferenceRoomSchedule)).thenReturn(conferenceRoomScheduleDTO);
 		Mockito.when(conferenceRoomScheduleRepository.findAll(pageable)).thenReturn(pageConfRoomSchedule);
 		Mockito.when(conferenceRoomScheduleRepository.findOne(10L)).thenReturn(conferenceRoomSchedule);
+		Mockito.when(conferenceRoomRepository.findOne(1L)).thenReturn(confRoom);
 	}	
 
-	
-	@Test
-	public void testSave() {
-		ConferenceRoomScheduleDTO returnDto = conferenceRoomScheduleServiceImpl.save(conferenceRoomScheduleDTO);
-		String title =returnDto.getConferenceTitle();
-		assertEquals("ODOS TEST", title);
-		Mockito.verify(conferenceRoomScheduleRepository).save(conferenceRoomSchedule);
-	}
 
 	@Test
 	public void testFindAll() {

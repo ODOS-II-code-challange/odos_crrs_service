@@ -51,8 +51,12 @@ public class ConferenceRoomScheduleMapper implements EntityMapper<ConferenceRoom
 	public ConferenceRoomScheduleDTO toDto(ConferenceRoomSchedule entity) {
 		if (entity == null) return null;
 		ConferenceRoomScheduleDTO conferenceRoomScheduleDTO = mapper.map(entity, ConferenceRoomScheduleDTO.class);
-		conferenceRoomScheduleDTO.setRoomScheduleStartTime(convertDateValue(entity.getRoomScheduleStartTime(), DATE_FORMAT));
-		conferenceRoomScheduleDTO.setRoomScheduleEndTime(convertDateValue(entity.getRoomScheduleEndTime(), DATE_FORMAT));
+		if (entity.getRoomScheduleStartTime() != null) {
+			conferenceRoomScheduleDTO.setRoomScheduleStartTime(convertDateValue(entity.getRoomScheduleStartTime(), DATE_FORMAT));
+		}
+		if (entity.getRoomScheduleEndTime() != null) {
+			conferenceRoomScheduleDTO.setRoomScheduleEndTime(convertDateValue(entity.getRoomScheduleEndTime(), DATE_FORMAT));
+		}
 		conferenceRoomScheduleDTO.setConferenceRoomId(entity.getConferenceRoom().getConferenceRoomId());
 		return conferenceRoomScheduleDTO;
 	}

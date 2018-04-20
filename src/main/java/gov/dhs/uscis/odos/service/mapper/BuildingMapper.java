@@ -21,6 +21,9 @@ public class BuildingMapper implements EntityMapper<BuildingDTO, Building> {
 
 	@Inject
 	private Mapper mapper;
+	
+	@Inject
+	private ConferenceRoomMapper conferenceRoomMapper;
 
 	@Override
 	public Building toEntity(BuildingDTO dto) {
@@ -33,7 +36,7 @@ public class BuildingMapper implements EntityMapper<BuildingDTO, Building> {
 		List<ConferenceRoomDTO> confDtos = new ArrayList<>();
 		BuildingDTO buildingDTO = mapper.map(entity, BuildingDTO.class);
 		for (ConferenceRoom conferenceRoom : entity.getConferenceRoom()) {
-			confDtos.add(mapper.map(conferenceRoom, ConferenceRoomDTO.class));
+			confDtos.add(conferenceRoomMapper.toDto(conferenceRoom));
 		}
 		buildingDTO.setConferenceRooms(confDtos);
 

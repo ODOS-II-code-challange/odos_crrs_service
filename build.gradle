@@ -214,6 +214,8 @@ dependencies {
     compile "io.springfox:springfox-bean-validators"
     compile "org.postgresql:postgresql"
     compile "net.sf.dozer:dozer:5.5.1"
+    compile 'joda-time:joda-time:2.9.9'
+    
     testCompile "com.jayway.jsonpath:json-path"
     testCompile ("org.springframework.boot:spring-boot-starter-test") {
         exclude group: 'com.vaadin.external.google', module: 'android-json'

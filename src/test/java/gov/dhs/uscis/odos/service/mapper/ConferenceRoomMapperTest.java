@@ -16,13 +16,20 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import gov.dhs.uscis.odos.domain.ConferenceRoom;
+import gov.dhs.uscis.odos.domain.ConferenceRoomEquipment;
+import gov.dhs.uscis.odos.domain.Equipment;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomDTO;
+import gov.dhs.uscis.odos.service.dto.EquipmentDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConferenceRoomMapperTest {
 	
 	private ConferenceRoom conferenceRoom;
 	private ConferenceRoomDTO conferenceRoomDTO;
+	private ConferenceRoomEquipment conferenceRoomEquipment;
+	private List<ConferenceRoomEquipment> conferenceRoomEquipments;
+	private Equipment equipment;
+	private EquipmentDTO equipmentDTO;
 		
 	@InjectMocks
 	ConferenceRoomMapper conferenceRoomMapper;
@@ -32,9 +39,18 @@ public class ConferenceRoomMapperTest {
 	@Before
 	public void setup() {
 		conferenceRoomDTO = new ConferenceRoomDTO();
+		equipmentDTO = new EquipmentDTO();
 		conferenceRoom = new ConferenceRoom();
+		conferenceRoomEquipment = new ConferenceRoomEquipment();
+		conferenceRoomEquipments = new ArrayList<>();
+		equipment = new Equipment();
+		conferenceRoomEquipment.setEquipment(equipment);
+		conferenceRoomEquipments.add(conferenceRoomEquipment);
+		conferenceRoom.setConferenceRoomEquipments(conferenceRoomEquipments);
 		Mockito.when(mapper.map(conferenceRoom, ConferenceRoomDTO.class)).thenReturn(conferenceRoomDTO);
 		Mockito.when(mapper.map(conferenceRoomDTO, ConferenceRoom.class)).thenReturn(conferenceRoom);
+		Mockito.when(mapper.map(conferenceRoomDTO, ConferenceRoom.class)).thenReturn(conferenceRoom);
+		Mockito.when(mapper.map(equipmentDTO, Equipment.class)).thenReturn(equipment);
 	}	
 
 	@Test

@@ -1,14 +1,22 @@
 package gov.dhs.uscis.odos.domain;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * A ConferenceRoomSchedule.
@@ -26,18 +34,18 @@ public class ConferenceRoomSchedule implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "requestor_id", nullable = false)
+    @Column(name = "req_id", nullable = false)
     private String requestorId;
 
     @NotNull
-    @Column(name = "room_schedule_start_time", nullable = false)
-    private LocalDate roomScheduleStartTime;
+    @Column(name = "start_dttm", nullable = false)
+    private Date roomScheduleStartTime;
 
     @NotNull
-    @Column(name = "room_schedule_end_time", nullable = false)
-    private LocalDate roomScheduleEndTime;
+    @Column(name = "end_dttm", nullable = false)
+    private Date roomScheduleEndTime;
 
-    @Column(name = "conference_title")
+    @Column(name = "conf_title")
     private String conferenceTitle;
     
     @ManyToOne(targetEntity = ConferenceRoom.class,cascade = CascadeType.ALL)
@@ -66,29 +74,29 @@ public class ConferenceRoomSchedule implements Serializable {
         this.requestorId = requestorId;
     }
 
-    public LocalDate getRoomScheduleStartTime() {
+    public Date getRoomScheduleStartTime() {
         return roomScheduleStartTime;
     }
 
-    public ConferenceRoomSchedule roomScheduleStartTime(LocalDate roomScheduleStartTime) {
+    public ConferenceRoomSchedule roomScheduleStartTime(Date roomScheduleStartTime) {
         this.roomScheduleStartTime = roomScheduleStartTime;
         return this;
     }
 
-    public void setRoomScheduleStartTime(LocalDate roomScheduleStartTime) {
+    public void setRoomScheduleStartTime(Date roomScheduleStartTime) {
         this.roomScheduleStartTime = roomScheduleStartTime;
     }
 
-    public LocalDate getRoomScheduleEndTime() {
+    public Date getRoomScheduleEndTime() {
         return roomScheduleEndTime;
     }
 
-    public ConferenceRoomSchedule roomScheduleEndTime(LocalDate roomScheduleEndTime) {
+    public ConferenceRoomSchedule roomScheduleEndTime(Date roomScheduleEndTime) {
         this.roomScheduleEndTime = roomScheduleEndTime;
         return this;
     }
 
-    public void setRoomScheduleEndTime(LocalDate roomScheduleEndTime) {
+    public void setRoomScheduleEndTime(Date roomScheduleEndTime) {
         this.roomScheduleEndTime = roomScheduleEndTime;
     }
 

@@ -1,6 +1,32 @@
 package gov.dhs.uscis.odos.web.rest;
 
-import gov.dhs.uscis.odos.CrrsvcApp;
+import static gov.dhs.uscis.odos.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
 import gov.dhs.uscis.odos.base.test.BaseIntegrationTest;
 import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
 import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
@@ -8,31 +34,6 @@ import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomScheduleDTO;
 import gov.dhs.uscis.odos.service.mapper.ConferenceRoomScheduleMapper;
 import gov.dhs.uscis.odos.web.rest.errors.ExceptionTranslator;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.List;
-
-import static gov.dhs.uscis.odos.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Test class for the ConferenceRoomScheduleResource REST controller.
@@ -44,11 +45,11 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
     private static final String DEFAULT_REQUESTOR_ID = "AAAAAAAAAA";
     private static final String UPDATED_REQUESTOR_ID = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_ROOM_SCHEDULE_START_TIME = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_ROOM_SCHEDULE_START_TIME = LocalDate.now(ZoneId.systemDefault());
+    private static final Date DEFAULT_ROOM_SCHEDULE_START_TIME = new Date();
+    private static final Date UPDATED_ROOM_SCHEDULE_START_TIME = new Date();
 
-    private static final LocalDate DEFAULT_ROOM_SCHEDULE_END_TIME = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_ROOM_SCHEDULE_END_TIME = LocalDate.now(ZoneId.systemDefault());
+    private static final Date DEFAULT_ROOM_SCHEDULE_END_TIME = new Date();
+    private static final Date UPDATED_ROOM_SCHEDULE_END_TIME = new Date();
 
     private static final String DEFAULT_CONFERENCE_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_CONFERENCE_TITLE = "BBBBBBBBBB";
@@ -116,7 +117,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
 
         // Create the ConferenceRoomSchedule
         ConferenceRoomScheduleDTO conferenceRoomScheduleDTO = conferenceRoomScheduleMapper.toDto(conferenceRoomSchedule);
-        restConferenceRoomScheduleMockMvc.perform(post("/api/conference-room-schedules")
+        restConferenceRoomScheduleMockMvc.perform(post("/api/conference-room-schedule")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(conferenceRoomScheduleDTO)))
             .andExpect(status().isCreated());
@@ -141,7 +142,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
         ConferenceRoomScheduleDTO conferenceRoomScheduleDTO = conferenceRoomScheduleMapper.toDto(conferenceRoomSchedule);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restConferenceRoomScheduleMockMvc.perform(post("/api/conference-room-schedules")
+        restConferenceRoomScheduleMockMvc.perform(post("/api/conference-room-schedule")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(conferenceRoomScheduleDTO)))
             .andExpect(status().isBadRequest());
@@ -161,7 +162,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
         // Create the ConferenceRoomSchedule, which fails.
         ConferenceRoomScheduleDTO conferenceRoomScheduleDTO = conferenceRoomScheduleMapper.toDto(conferenceRoomSchedule);
 
-        restConferenceRoomScheduleMockMvc.perform(post("/api/conference-room-schedules")
+        restConferenceRoomScheduleMockMvc.perform(post("/api/conference-room-schedule")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(conferenceRoomScheduleDTO)))
             .andExpect(status().isBadRequest());
@@ -180,7 +181,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
         // Create the ConferenceRoomSchedule, which fails.
         ConferenceRoomScheduleDTO conferenceRoomScheduleDTO = conferenceRoomScheduleMapper.toDto(conferenceRoomSchedule);
 
-        restConferenceRoomScheduleMockMvc.perform(post("/api/conference-room-schedules")
+        restConferenceRoomScheduleMockMvc.perform(post("/api/conference-room-schedule")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(conferenceRoomScheduleDTO)))
             .andExpect(status().isBadRequest());
@@ -199,7 +200,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
         // Create the ConferenceRoomSchedule, which fails.
         ConferenceRoomScheduleDTO conferenceRoomScheduleDTO = conferenceRoomScheduleMapper.toDto(conferenceRoomSchedule);
 
-        restConferenceRoomScheduleMockMvc.perform(post("/api/conference-room-schedules")
+        restConferenceRoomScheduleMockMvc.perform(post("/api/conference-room-schedule")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(conferenceRoomScheduleDTO)))
             .andExpect(status().isBadRequest());
@@ -215,7 +216,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
         conferenceRoomScheduleRepository.saveAndFlush(conferenceRoomSchedule);
 
         // Get all the conferenceRoomScheduleList
-        restConferenceRoomScheduleMockMvc.perform(get("/api/conference-room-schedules?sort=id,desc"))
+        restConferenceRoomScheduleMockMvc.perform(get("/api/conference-room-schedule?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(conferenceRoomSchedule.getId().intValue())))
@@ -232,7 +233,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
         conferenceRoomScheduleRepository.saveAndFlush(conferenceRoomSchedule);
 
         // Get the conferenceRoomSchedule
-        restConferenceRoomScheduleMockMvc.perform(get("/api/conference-room-schedules/{id}", conferenceRoomSchedule.getId()))
+        restConferenceRoomScheduleMockMvc.perform(get("/api/conference-room-schedule/{id}", conferenceRoomSchedule.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(conferenceRoomSchedule.getId().intValue()))
@@ -246,7 +247,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
     @Transactional
     public void getNonExistingConferenceRoomSchedule() throws Exception {
         // Get the conferenceRoomSchedule
-        restConferenceRoomScheduleMockMvc.perform(get("/api/conference-room-schedules/{id}", Long.MAX_VALUE))
+        restConferenceRoomScheduleMockMvc.perform(get("/api/conference-room-schedule/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());
     }
 
@@ -268,7 +269,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
             .conferenceTitle(UPDATED_CONFERENCE_TITLE);
         ConferenceRoomScheduleDTO conferenceRoomScheduleDTO = conferenceRoomScheduleMapper.toDto(updatedConferenceRoomSchedule);
 
-        restConferenceRoomScheduleMockMvc.perform(put("/api/conference-room-schedules")
+        restConferenceRoomScheduleMockMvc.perform(put("/api/conference-room-schedule")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(conferenceRoomScheduleDTO)))
             .andExpect(status().isOk());
@@ -292,7 +293,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
         ConferenceRoomScheduleDTO conferenceRoomScheduleDTO = conferenceRoomScheduleMapper.toDto(conferenceRoomSchedule);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
-        restConferenceRoomScheduleMockMvc.perform(put("/api/conference-room-schedules")
+        restConferenceRoomScheduleMockMvc.perform(put("/api/conference-room-schedule")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(conferenceRoomScheduleDTO)))
             .andExpect(status().isCreated());
@@ -310,7 +311,7 @@ public class ConferenceRoomScheduleResourceIntTest extends BaseIntegrationTest {
         int databaseSizeBeforeDelete = conferenceRoomScheduleRepository.findAll().size();
 
         // Get the conferenceRoomSchedule
-        restConferenceRoomScheduleMockMvc.perform(delete("/api/conference-room-schedules/{id}", conferenceRoomSchedule.getId())
+        restConferenceRoomScheduleMockMvc.perform(delete("/api/conference-room-schedule/{id}", conferenceRoomSchedule.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 

@@ -16,7 +16,12 @@ import java.util.Map;
 @Table(name = "jhi_persistent_audit_event")
 public class PersistentAuditEvent implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "event_id")
@@ -27,7 +32,7 @@ public class PersistentAuditEvent implements Serializable {
     private String principal;
 
     @Column(name = "event_date")
-    private Instant auditEventDate;
+    private transient Instant auditEventDate;
 
     @Column(name = "event_type")
     private String auditEventType;

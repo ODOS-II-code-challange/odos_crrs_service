@@ -54,6 +54,11 @@ spec:
               secretKeyRef:
                 name: odos-secrets-svc
                 key: RRSVC_DATABASE_PASSWORD
+          - name: CRRSVC_SHOW_SQL
+            valueFrom:
+              secretKeyRef:
+                name: odos-secrets-svc
+                key: CRRSVC_SHOW_SQL
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

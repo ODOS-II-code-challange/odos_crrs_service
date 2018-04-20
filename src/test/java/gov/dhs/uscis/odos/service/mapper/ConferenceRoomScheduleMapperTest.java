@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import gov.dhs.uscis.odos.domain.Building;
 import gov.dhs.uscis.odos.domain.ConferenceRoom;
 import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomScheduleDTO;
@@ -44,6 +45,9 @@ public class ConferenceRoomScheduleMapperTest {
 		conferenceRoomSchedule.setRoomScheduleStartTime(new Date());
 		ConferenceRoom conferenceRoom = new ConferenceRoom();
 		conferenceRoom.setConferenceRoomId(10L);
+		Building building = new Building();
+		building.setBuildingName("BNAME");
+		conferenceRoom.setBuilding(building);
 		conferenceRoomSchedule.setConferenceRoom(conferenceRoom);
 		Mockito.when(mapper.map(conferenceRoomDTO, ConferenceRoomSchedule.class)).thenReturn(conferenceRoomSchedule);
 		Mockito.when(mapper.map(conferenceRoomSchedule, ConferenceRoomScheduleDTO.class)).thenReturn(conferenceRoomDTO);

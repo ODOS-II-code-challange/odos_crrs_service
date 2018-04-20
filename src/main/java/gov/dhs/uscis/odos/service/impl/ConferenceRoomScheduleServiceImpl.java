@@ -2,9 +2,13 @@ package gov.dhs.uscis.odos.service.impl;
 
 import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
 import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
+import gov.dhs.uscis.odos.repository.ConferenceRoomRepository;
 import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomScheduleDTO;
 import gov.dhs.uscis.odos.service.mapper.ConferenceRoomScheduleMapper;
+
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -20,7 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ConferenceRoomScheduleServiceImpl implements ConferenceRoomScheduleService {
 
-    private final Logger log = LoggerFactory.getLogger(ConferenceRoomScheduleServiceImpl.class);
+    @Inject
+    ConferenceRoomRepository conferenceRoomRepository;
+	
+	private final Logger log = LoggerFactory.getLogger(ConferenceRoomScheduleServiceImpl.class);
 
     private final ConferenceRoomScheduleRepository conferenceRoomScheduleRepository;
 
@@ -41,6 +48,8 @@ public class ConferenceRoomScheduleServiceImpl implements ConferenceRoomSchedule
     public ConferenceRoomScheduleDTO save(ConferenceRoomScheduleDTO conferenceRoomScheduleDTO) {
         log.debug("Request to save ConferenceRoomSchedule : {}", conferenceRoomScheduleDTO);
         ConferenceRoomSchedule conferenceRoomSchedule = conferenceRoomScheduleMapper.toEntity(conferenceRoomScheduleDTO);
+        conferenceRoomSchedule.setConferenceRoom(
+        		conferenceRoomRepository.findOne(conferenceRoomScheduleDTO.getConferenceRoomId()));
         conferenceRoomSchedule = conferenceRoomScheduleRepository.save(conferenceRoomSchedule);
         return conferenceRoomScheduleMapper.toDto(conferenceRoomSchedule);
     }

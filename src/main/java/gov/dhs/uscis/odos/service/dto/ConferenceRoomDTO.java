@@ -28,6 +28,8 @@ public class ConferenceRoomDTO implements Serializable {
     private ActiveIndicatorEnum activeIndicator;
     
     private List<EquipmentDTO> equipments;
+    
+    private List<ConferenceRoomScheduleDTO> schedule;
 
     public Long getConferenceRoomId() {
 		return conferenceRoomId;
@@ -75,6 +77,14 @@ public class ConferenceRoomDTO implements Serializable {
 
 	public void setEquipments(List<EquipmentDTO> equipments) {
 		this.equipments = equipments;
+	}
+
+	public List<ConferenceRoomScheduleDTO> getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(List<ConferenceRoomScheduleDTO> schedule) {
+		this.schedule = schedule;
 	}
 
 	@Override

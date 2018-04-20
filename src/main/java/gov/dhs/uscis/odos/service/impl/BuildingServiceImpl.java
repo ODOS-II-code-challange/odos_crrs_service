@@ -84,4 +84,11 @@ public class BuildingServiceImpl implements BuildingService {
         log.debug("Request to delete Building : {}", id);
         buildingRepository.delete(id);
     }
+
+	@Override
+	public List<BuildingDTO> findByName(String buildingName) {
+		return buildingRepository.findByBuildingName(buildingName)
+				.stream().map(buildingMapper::toDto)
+				.collect(Collectors.toCollection(LinkedList::new));
+	}
 }

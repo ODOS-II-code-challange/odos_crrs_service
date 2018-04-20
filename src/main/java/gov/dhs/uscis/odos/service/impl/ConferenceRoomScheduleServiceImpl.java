@@ -7,6 +7,10 @@ import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomScheduleDTO;
 import gov.dhs.uscis.odos.service.mapper.ConferenceRoomScheduleMapper;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -92,4 +96,11 @@ public class ConferenceRoomScheduleServiceImpl implements ConferenceRoomSchedule
         log.debug("Request to delete ConferenceRoomSchedule : {}", id);
         conferenceRoomScheduleRepository.delete(id);
     }
+
+	@Override
+	public List<ConferenceRoomScheduleDTO> findByRequestId(String requestorId) {
+		return conferenceRoomScheduleRepository.findByRequestorId(requestorId)
+				.stream().map(conferenceRoomScheduleMapper::toDto)
+				.collect(Collectors.toCollection(LinkedList::new));
+	}
 }

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -64,13 +65,13 @@ public class ConferenceRoomScheduleMapper implements EntityMapper<ConferenceRoom
 	@Override
 	public List<ConferenceRoomSchedule> toEntity(List<ConferenceRoomScheduleDTO> dtoList) {
 		
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override
 	public List<ConferenceRoomScheduleDTO> toDto(List<ConferenceRoomSchedule> entityList) {
 		
-		return null;
+		return Collections.emptyList();
 	}
 	
 	private Date convertDateString(String dateStr, String format) {

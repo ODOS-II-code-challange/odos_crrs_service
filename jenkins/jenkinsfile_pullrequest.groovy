@@ -19,7 +19,7 @@ pipeline {
             script{
               Common.slack 'Sonar Scan for build request...'
             
-              withCredentials([usernamePassword(credentialsId: 'soar-login', passwordVariable: 'SONAR_PASSWORD', usernameVariable: '')]) {
+             withCredentials([usernamePassword(credentialsId: 'sonar-jenkins', passwordVariable: 'SONAR_PASSWORD', usernameVariable: '')]) {
                   sh """
                         ./gradlew --full-stacktrace\
                         -Dsonar.host.url=http://odos.lassiterdynamics.com:9000 \

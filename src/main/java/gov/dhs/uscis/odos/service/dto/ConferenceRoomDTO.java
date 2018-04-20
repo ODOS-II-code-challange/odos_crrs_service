@@ -2,9 +2,9 @@ package gov.dhs.uscis.odos.service.dto;
 
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
-import gov.dhs.uscis.odos.domain.Building;
 import gov.dhs.uscis.odos.domain.enums.ActiveIndicatorEnum;
 
 /**
@@ -27,7 +27,9 @@ public class ConferenceRoomDTO implements Serializable {
     
     private ActiveIndicatorEnum activeIndicator;
     
-    private Building building;
+    private List<EquipmentDTO> equipments;
+    
+    private List<ConferenceRoomScheduleDTO> schedule;
 
     public Long getConferenceRoomId() {
 		return conferenceRoomId;
@@ -69,12 +71,20 @@ public class ConferenceRoomDTO implements Serializable {
 		this.activeIndicator = activeIndicator;
 	}
 
-	public Building getBuilding() {
-		return building;
+	public List<EquipmentDTO> getEquipments() {
+		return equipments;
 	}
 
-	public void setBuilding(Building building) {
-		this.building = building;
+	public void setEquipments(List<EquipmentDTO> equipments) {
+		this.equipments = equipments;
+	}
+
+	public List<ConferenceRoomScheduleDTO> getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(List<ConferenceRoomScheduleDTO> schedule) {
+		this.schedule = schedule;
 	}
 
 	@Override

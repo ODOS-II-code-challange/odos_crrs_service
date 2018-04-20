@@ -1,5 +1,7 @@
 package gov.dhs.uscis.odos.web.rest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -46,6 +48,8 @@ public class LogsResourceIntTest extends BaseIntegrationTest {
         LoggerVM logger = new LoggerVM();
         logger.setLevel("INFO");
         logger.setName("ROOT");
+        
+        assertEquals("LoggerVM{name='" + logger.getName() + "', level='" + logger.getLevel() + "'}", logger.toString());
 
         restLogsMockMvc.perform(put("/management/logs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)

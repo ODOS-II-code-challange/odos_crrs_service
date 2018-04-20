@@ -9,7 +9,7 @@ import javax.inject.Named;
 import org.dozer.Mapper;
 
 import gov.dhs.uscis.odos.domain.Building;
-import gov.dhs.uscis.odos.service.ConferenceRoomService;
+import gov.dhs.uscis.odos.domain.ConferenceRoom;
 import gov.dhs.uscis.odos.service.dto.BuildingDTO;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomDTO;
 
@@ -23,7 +23,7 @@ public class BuildingMapper implements EntityMapper<BuildingDTO, Building> {
 	private Mapper mapper;
 	
 	@Inject
-	private ConferenceRoomService conferenceRoomService;
+	private ConferenceRoomMapper conferenceRoomMapper;
 
 	@Override
 	public Building toEntity(BuildingDTO dto) {
@@ -33,8 +33,13 @@ public class BuildingMapper implements EntityMapper<BuildingDTO, Building> {
 	@Override
 	public BuildingDTO toDto(Building entity) {
 		if (entity == null) return null;
+		List<ConferenceRoomDTO> confDtos = new ArrayList<>();
 		BuildingDTO buildingDTO = mapper.map(entity, BuildingDTO.class);
-		buildingDTO.setConferenceRooms(conferenceRoomService.findAll());
+		for (ConferenceRoom conferenceRoom : entity.getConferenceRoom()) {
+			confDtos.add(conferenceRoomMapper.toDto(conferenceRoom));
+		}
+		buildingDTO.setConferenceRooms(confDtos);
+
 		return buildingDTO;
 	}
 

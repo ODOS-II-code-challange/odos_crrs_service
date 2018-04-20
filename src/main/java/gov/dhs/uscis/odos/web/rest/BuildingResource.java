@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +53,7 @@ public class BuildingResource {
      */
     @PostMapping("/buildings")
     @Timed
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BuildingDTO> createBuilding(@RequestBody BuildingDTO buildingDTO) throws URISyntaxException {
         log.debug("REST request to save Building : {}", buildingDTO);
         if (buildingDTO.getBuildingId() != null) {
@@ -74,6 +76,7 @@ public class BuildingResource {
      */
     @PutMapping("/buildings")
     @Timed
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BuildingDTO> updateBuilding(@RequestBody BuildingDTO buildingDTO) throws URISyntaxException {
         log.debug("REST request to update Building : {}", buildingDTO);
         if (buildingDTO.getBuildingId() == null) {
@@ -119,6 +122,7 @@ public class BuildingResource {
      */
     @DeleteMapping("/buildings/{id}")
     @Timed
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteBuilding(@PathVariable Long id) {
         log.debug("REST request to delete Building : {}", id);
         buildingService.delete(id);

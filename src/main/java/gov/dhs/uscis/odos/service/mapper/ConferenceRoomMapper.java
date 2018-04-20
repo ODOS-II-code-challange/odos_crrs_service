@@ -6,10 +6,15 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang.Validate;
 import org.dozer.Mapper;
 
 import gov.dhs.uscis.odos.domain.ConferenceRoom;
+import gov.dhs.uscis.odos.domain.ConferenceRoomEquipment;
+import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomDTO;
+import gov.dhs.uscis.odos.service.dto.ConferenceRoomScheduleDTO;
+import gov.dhs.uscis.odos.service.dto.EquipmentDTO;
 
 /**
  * Mapper for the entity ConferenceRoom and its DTO ConferenceRoomDTO.
@@ -19,6 +24,9 @@ public class ConferenceRoomMapper implements EntityMapper<ConferenceRoomDTO, Con
 
 	@Inject
 	private Mapper mapper;
+	
+	@Inject
+	private ConferenceRoomScheduleMapper crsMapper;
 
 	@Override
 	public ConferenceRoom toEntity(ConferenceRoomDTO dto) {	
@@ -27,7 +35,21 @@ public class ConferenceRoomMapper implements EntityMapper<ConferenceRoomDTO, Con
 
 	@Override
 	public ConferenceRoomDTO toDto(ConferenceRoom entity) {
-		return mapper.map(entity, ConferenceRoomDTO.class);
+		List<EquipmentDTO> equipmentDTO = new ArrayList<>();
+		Validate.notNull(entity, "The ConferenceRoom entity must not be null");
+		ConferenceRoomDTO conferenceRoomDTO = mapper.map(entity, ConferenceRoomDTO.class);
+		for (ConferenceRoomEquipment equipment : entity.getConferenceRoomEquipments()) {
+			equipmentDTO.add(mapper.map(equipment.getEquipment(), EquipmentDTO.class));
+		}
+		conferenceRoomDTO.setEquipments(equipmentDTO);
+		
+		List<ConferenceRoomScheduleDTO> scheduleDTO = new ArrayList<>();
+		for (ConferenceRoomSchedule schedule : entity.getConferenceRoomSchedule()) {
+			scheduleDTO.add(crsMapper.toDto(schedule));
+		}
+		conferenceRoomDTO.setSchedule(scheduleDTO);
+		
+		return conferenceRoomDTO;
 	}
 
 	@Override

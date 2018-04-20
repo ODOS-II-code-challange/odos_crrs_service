@@ -78,7 +78,7 @@ spring:
                 physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
                 implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
-        
+
         properties:
             hibernate.default_schema: ${CRRSVC_DATABASE_SCHEMA:odos_crrs_svc}
             hibernate.id.new_generator_mappings: true
@@ -86,17 +86,17 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
             hibernate.show_sql : ${CRRSVC_SHOW_SQL:false}
-            hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.NoDefaultJCacheRegionFactory               
+            hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.NoDefaultJCacheRegionFactory
     datasource:
         platform: POSTGRESSQL
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://${CRRSVC_DATABASE_HOST:localhost}:${CRRSVC_DATABASE_PORT:5432}/${CRRSVC_DATABASE_NAME:odos_crrs_svc}?stringtype=unspecified
+        url: jdbc:postgresql://${CRRSVC_DB_HOST:localhost}:${CRRSVC_DATABASE_PORT:5432}/${CRRSVC_DATABASE_NAME:odos_crrs_svc}?stringtype=unspecified
         username: ${CRRSVC_DATABASE_USERNAME:odos_crrs_svc_app}
         password: ${CRRSVC_DATABASE_PASSWORD}
         tomcat:
           validation-query: SELECT 1
         driverClassName: org.postgresql.Driver
-    
+
     messages:
         basename: i18n/messages
     mvc:

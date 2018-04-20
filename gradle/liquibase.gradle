@@ -11,7 +11,7 @@ dependencies {
 }
 
 if (OperatingSystem.current().isWindows()) {
-    ext.psql = "C:/PostgreSQL/10/bin/psql.exe"
+    ext.psql = "C:/PostgreSQL/pg10/bin/psql.exe"
 } else {
     if (System.getenv('PSQL_BIN') == null) {
         ext.psql = "/usr/bin/psql"
@@ -63,6 +63,10 @@ task baseline << {
     runpsql('src/main/resources/config/liquibase/baseline/drop_database.sql')
     runpsql('src/main/resources/config/liquibase/baseline/create_database.sql')
     runpsql('src/main/resources/config/liquibase/baseline/create_user_schema.sql', "${databaseName}")
+}
+task loadData << {
+    runpsql('src/main/resources/config/liquibase/loaddata/loaddata.sql', "${databaseName}")
+    
 }
 
 task baselineTest << {

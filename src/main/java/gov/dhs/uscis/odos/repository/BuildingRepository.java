@@ -1,9 +1,11 @@
 package gov.dhs.uscis.odos.repository;
 
-import gov.dhs.uscis.odos.domain.Building;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import org.springframework.data.jpa.repository.*;
+import gov.dhs.uscis.odos.domain.Building;
 
 
 /**
@@ -11,5 +13,5 @@ import org.springframework.data.jpa.repository.*;
  */
 @Repository
 public interface BuildingRepository extends JpaRepository<Building, Long> {
-
+	List<Building> findByBuildingName(String buildingName);
 }

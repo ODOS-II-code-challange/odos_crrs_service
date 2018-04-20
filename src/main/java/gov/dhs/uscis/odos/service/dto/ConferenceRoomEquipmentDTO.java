@@ -3,7 +3,6 @@ package gov.dhs.uscis.odos.service.dto;
 
 import java.io.Serializable;
 
-import gov.dhs.uscis.odos.domain.ConferenceRoom;
 import gov.dhs.uscis.odos.domain.Equipment;
 
 /**
@@ -15,7 +14,7 @@ public class ConferenceRoomEquipmentDTO implements Serializable {
 
     private Long conferenceRoomEquipId;
     
-    private ConferenceRoom conferenceRoom;
+    private ConferenceRoomDTO conferenceRoom;
     
     private Equipment equipment;
 
@@ -27,11 +26,11 @@ public class ConferenceRoomEquipmentDTO implements Serializable {
 		this.conferenceRoomEquipId = conferenceRoomEquipId;
 	}
 
-	public ConferenceRoom getConferenceRoom() {
+	public ConferenceRoomDTO getConferenceRoom() {
 		return conferenceRoom;
 	}
 
-	public void setConferenceRoom(ConferenceRoom conferenceRoom) {
+	public void setConferenceRoom(ConferenceRoomDTO conferenceRoom) {
 		this.conferenceRoom = conferenceRoom;
 	}
 

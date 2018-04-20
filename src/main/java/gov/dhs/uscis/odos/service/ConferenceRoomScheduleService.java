@@ -1,6 +1,9 @@
 package gov.dhs.uscis.odos.service;
 
-import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
+import gov.dhs.uscis.odos.service.dto.ConferenceRoomScheduleDTO;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,10 +15,10 @@ public interface ConferenceRoomScheduleService {
     /**
      * Save a conferenceRoomSchedule.
      *
-     * @param conferenceRoomSchedule the entity to save
+     * @param conferenceRoomScheduleDTO the entity to save
      * @return the persisted entity
      */
-    ConferenceRoomSchedule save(ConferenceRoomSchedule conferenceRoomSchedule);
+    ConferenceRoomScheduleDTO save(ConferenceRoomScheduleDTO conferenceRoomScheduleDTO);
 
     /**
      * Get all the conferenceRoomSchedules.
@@ -23,7 +26,7 @@ public interface ConferenceRoomScheduleService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<ConferenceRoomSchedule> findAll(Pageable pageable);
+    Page<ConferenceRoomScheduleDTO> findAll(Pageable pageable);
 
     /**
      * Get the "id" conferenceRoomSchedule.
@@ -31,7 +34,7 @@ public interface ConferenceRoomScheduleService {
      * @param id the id of the entity
      * @return the entity
      */
-    ConferenceRoomSchedule findOne(Long id);
+    ConferenceRoomScheduleDTO findOne(Long id);
 
     /**
      * Delete the "id" conferenceRoomSchedule.
@@ -39,4 +42,6 @@ public interface ConferenceRoomScheduleService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    List<ConferenceRoomScheduleDTO> findByRequestId(String requestorId);
 }

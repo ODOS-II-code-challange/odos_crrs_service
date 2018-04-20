@@ -1,5 +1,16 @@
 package gov.dhs.uscis.odos.service.impl;
 
+import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
+import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
+import gov.dhs.uscis.odos.repository.ConferenceRoomRepository;
+import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
+import gov.dhs.uscis.odos.service.dto.ConferenceRoomScheduleDTO;
+import gov.dhs.uscis.odos.service.mapper.ConferenceRoomScheduleMapper;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -9,10 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
-import gov.dhs.uscis.odos.repository.ConferenceRoomScheduleRepository;
-import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
-
 
 /**
  * Service Implementation for managing ConferenceRoomSchedule.
@@ -21,21 +28,34 @@ import gov.dhs.uscis.odos.service.ConferenceRoomScheduleService;
 @Transactional
 public class ConferenceRoomScheduleServiceImpl implements ConferenceRoomScheduleService {
 
-    private final Logger log = LoggerFactory.getLogger(ConferenceRoomScheduleServiceImpl.class);
-
     @Inject
-    private ConferenceRoomScheduleRepository conferenceRoomScheduleRepository;
+    ConferenceRoomRepository conferenceRoomRepository;
+	
+	private final Logger log = LoggerFactory.getLogger(ConferenceRoomScheduleServiceImpl.class);
+
+    private final ConferenceRoomScheduleRepository conferenceRoomScheduleRepository;
+
+    private final ConferenceRoomScheduleMapper conferenceRoomScheduleMapper;
+
+    public ConferenceRoomScheduleServiceImpl(ConferenceRoomScheduleRepository conferenceRoomScheduleRepository, ConferenceRoomScheduleMapper conferenceRoomScheduleMapper) {
+        this.conferenceRoomScheduleRepository = conferenceRoomScheduleRepository;
+        this.conferenceRoomScheduleMapper = conferenceRoomScheduleMapper;
+    }
 
     /**
      * Save a conferenceRoomSchedule.
      *
-     * @param conferenceRoomSchedule the entity to save
+     * @param conferenceRoomScheduleDTO the entity to save
      * @return the persisted entity
      */
     @Override
-    public ConferenceRoomSchedule save(ConferenceRoomSchedule conferenceRoomSchedule) {
-        log.debug("Request to save ConferenceRoomSchedule : {}", conferenceRoomSchedule);
-        return conferenceRoomScheduleRepository.save(conferenceRoomSchedule);
+    public ConferenceRoomScheduleDTO save(ConferenceRoomScheduleDTO conferenceRoomScheduleDTO) {
+        log.debug("Request to save ConferenceRoomSchedule : {}", conferenceRoomScheduleDTO);
+        ConferenceRoomSchedule conferenceRoomSchedule = conferenceRoomScheduleMapper.toEntity(conferenceRoomScheduleDTO);
+        conferenceRoomSchedule.setConferenceRoom(
+        		conferenceRoomRepository.findOne(conferenceRoomScheduleDTO.getConferenceRoomId()));
+        conferenceRoomSchedule = conferenceRoomScheduleRepository.save(conferenceRoomSchedule);
+        return conferenceRoomScheduleMapper.toDto(conferenceRoomSchedule);
     }
 
     /**
@@ -46,9 +66,10 @@ public class ConferenceRoomScheduleServiceImpl implements ConferenceRoomSchedule
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<ConferenceRoomSchedule> findAll(Pageable pageable) {
+    public Page<ConferenceRoomScheduleDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ConferenceRoomSchedules");
-        return conferenceRoomScheduleRepository.findAll(pageable);
+        return conferenceRoomScheduleRepository.findAll(pageable)
+            .map(conferenceRoomScheduleMapper::toDto);
     }
 
     /**
@@ -59,9 +80,10 @@ public class ConferenceRoomScheduleServiceImpl implements ConferenceRoomSchedule
      */
     @Override
     @Transactional(readOnly = true)
-    public ConferenceRoomSchedule findOne(Long id) {
+    public ConferenceRoomScheduleDTO findOne(Long id) {
         log.debug("Request to get ConferenceRoomSchedule : {}", id);
-        return conferenceRoomScheduleRepository.findOne(id);
+        ConferenceRoomSchedule conferenceRoomSchedule = conferenceRoomScheduleRepository.findOne(id);
+        return conferenceRoomScheduleMapper.toDto(conferenceRoomSchedule);
     }
 
     /**
@@ -74,4 +96,11 @@ public class ConferenceRoomScheduleServiceImpl implements ConferenceRoomSchedule
         log.debug("Request to delete ConferenceRoomSchedule : {}", id);
         conferenceRoomScheduleRepository.delete(id);
     }
+
+	@Override
+	public List<ConferenceRoomScheduleDTO> findByRequestId(String requestorId) {
+		return conferenceRoomScheduleRepository.findByRequestorId(requestorId)
+				.stream().map(conferenceRoomScheduleMapper::toDto)
+				.collect(Collectors.toCollection(LinkedList::new));
+	}
 }

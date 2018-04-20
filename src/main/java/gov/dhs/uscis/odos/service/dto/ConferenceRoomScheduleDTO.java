@@ -1,10 +1,10 @@
 package gov.dhs.uscis.odos.service.dto;
 
 
-import java.time.LocalDate;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * A DTO for the ConferenceRoomSchedule entity.
@@ -22,10 +22,10 @@ public class ConferenceRoomScheduleDTO implements Serializable {
     private String requestorId;
 
     @NotNull
-    private LocalDate roomScheduleStartTime;
+    private String roomScheduleStartTime;
 
     @NotNull
-    private LocalDate roomScheduleEndTime;
+    private String roomScheduleEndTime;
 
     private String conferenceTitle;
 
@@ -45,19 +45,19 @@ public class ConferenceRoomScheduleDTO implements Serializable {
         this.requestorId = requestorId;
     }
 
-    public LocalDate getRoomScheduleStartTime() {
+    public String getRoomScheduleStartTime() {
         return roomScheduleStartTime;
     }
 
-    public void setRoomScheduleStartTime(LocalDate roomScheduleStartTime) {
+    public void setRoomScheduleStartTime(String roomScheduleStartTime) {
         this.roomScheduleStartTime = roomScheduleStartTime;
     }
 
-    public LocalDate getRoomScheduleEndTime() {
+    public String getRoomScheduleEndTime() {
         return roomScheduleEndTime;
     }
 
-    public void setRoomScheduleEndTime(LocalDate roomScheduleEndTime) {
+    public void setRoomScheduleEndTime(String roomScheduleEndTime) {
         this.roomScheduleEndTime = roomScheduleEndTime;
     }
 

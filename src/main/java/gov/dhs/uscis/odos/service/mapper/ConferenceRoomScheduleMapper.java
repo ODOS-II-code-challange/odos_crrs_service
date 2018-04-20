@@ -9,6 +9,7 @@ import org.dozer.Mapper;
 
 import gov.dhs.uscis.odos.domain.ConferenceRoomSchedule;
 import gov.dhs.uscis.odos.service.dto.ConferenceRoomScheduleDTO;
+import io.undertow.util.DateUtils;
 
 /**
  * Mapper for the entity ConferenceRoomSchedule and its DTO
@@ -22,12 +23,19 @@ public class ConferenceRoomScheduleMapper implements EntityMapper<ConferenceRoom
 
 	@Override
 	public ConferenceRoomSchedule toEntity(ConferenceRoomScheduleDTO dto) {
-		return mapper.map(dto, ConferenceRoomSchedule.class);
+		ConferenceRoomSchedule conferenceRoomSchedule  =  mapper.map(dto, ConferenceRoomSchedule.class);
+		conferenceRoomSchedule.setRoomScheduleStartTime(DateUtils.parseDate(dto.getRoomScheduleStartTime()));
+		conferenceRoomSchedule.setRoomScheduleEndTime(DateUtils.parseDate(dto.getRoomScheduleEndTime()));
+		return conferenceRoomSchedule;
+		
 	}
 
 	@Override
 	public ConferenceRoomScheduleDTO toDto(ConferenceRoomSchedule entity) {
-		return mapper.map(entity, ConferenceRoomScheduleDTO.class);
+		ConferenceRoomScheduleDTO conferenceRoomScheduleDTO = mapper.map(entity, ConferenceRoomScheduleDTO.class);
+		conferenceRoomScheduleDTO.setRoomScheduleStartTime(DateUtils.toDateString(entity.getRoomScheduleStartTime()));
+		conferenceRoomScheduleDTO.setRoomScheduleEndTime(DateUtils.toDateString(entity.getRoomScheduleEndTime()));
+		return conferenceRoomScheduleDTO;
 	}
 
 	@Override

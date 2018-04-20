@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script{
                   Common.slack 'Building...'
-                  Common.jHipsterBuild()
+                  Common.jHipsterBuild('.','')
                 }
             }
         }
@@ -59,14 +59,14 @@ pipeline {
               }
             }
         }
-        // stage('Twistlock Scan') {
-        //     steps {
-        //       script{
-        //         Common.slack 'Twistlock Scan...'
-        //         Common.twistlock('docker.lassiterdynamics.com:5000', 'crrsvc','latest')
-        //       }
-        //     }
-        // }
+        stage('Twistlock Scan') {
+            steps {
+              script{
+                Common.slack 'Twistlock Scan...'
+                Common.twistlock("${DOCKER_REGISTRY}", 'crrsvc','latest')
+              }
+            }
+        }
         stage('Push Container') {
             steps {
               script{
@@ -79,6 +79,11 @@ pipeline {
             steps {
               script{
                 Common.slack 'Deploying to Test Environment...'
+                withCredentials([usernamePassword(credentialsId: 'TEST_DB_USER_PASS', passwordVariable: 'TEST_DB_PASS', usernameVariable: 'TEST_DB_USER')]) {
+                  sh """
+                  ./gradlew baseline liquibaseUpdate -PdatabaseHost=${TEST_DB_HOST} -PdatabaseAdmin=${TEST_DB_USER} -PdatabasePassword=${TEST_DB_PASS}
+                  """
+                }
                 Common.deployToOpenShift('odos-ii-test','crrsvc','latest')
               }
             }

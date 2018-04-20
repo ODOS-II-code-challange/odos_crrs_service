@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +52,7 @@ public class ConferenceRoomResource {
      */
     @PostMapping("/conferenceroom")
     @Timed
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ConferenceRoomDTO> createConferenceRoom(@RequestBody ConferenceRoomDTO ConferenceRoomDTO) throws URISyntaxException {
         log.debug("REST request to save Conference Room : {}", ConferenceRoomDTO);
         if (ConferenceRoomDTO.getConferenceRoomId() != null) {
@@ -73,6 +75,7 @@ public class ConferenceRoomResource {
      */
     @PutMapping("/conferenceroom")
     @Timed
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ConferenceRoomDTO> updateConferenceRoom(@RequestBody ConferenceRoomDTO ConferenceRoomDTO) throws URISyntaxException {
         log.debug("REST request to update Conference Room : {}", ConferenceRoomDTO);
         if (ConferenceRoomDTO.getConferenceRoomId() == null) {
@@ -118,6 +121,7 @@ public class ConferenceRoomResource {
      */
     @DeleteMapping("/conferenceroom/{id}")
     @Timed
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteConferenceRoom(@PathVariable Long id) {
         log.debug("REST request to delete Conference Room : {}", id);
         conferenceRoomService.delete(id);

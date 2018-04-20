@@ -1,5 +1,7 @@
 #!groovy
 def Common = new odos.jenkins.Common()
+def GIT_URL = "https://github.com/ODOS-II-code-challange/odos_crrs_service.git"
+
 pipeline {
     agent any
 
@@ -40,7 +42,11 @@ pipeline {
             }
           }
         }
-
+        withEnv(["GIT_URL=${GIT_URL}"]){
+            currentBuild.result = 'SUCCESS'
+            step([$class: 'CompareCoverageAction'])
+            
+        }
 
     }
 }
